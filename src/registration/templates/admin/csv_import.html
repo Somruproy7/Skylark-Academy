@@ -1,0 +1,385 @@
+{% extends "registration/base.html" %}
+{% load static %}
+
+{% block title %}CSV Import - Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .import-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .template-download {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .file-upload-area {
+        border: 2px dashed #dee2e6;
+        border-radius: 10px;
+        padding: 40px;
+        text-align: center;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+    }
+    
+    .file-upload-area:hover {
+        border-color: #667eea;
+        background: #f0f2ff;
+    }
+    
+    .file-upload-area.dragover {
+        border-color: #667eea;
+        background: #e8ecff;
+    }
+    
+    .upload-icon {
+        font-size: 3rem;
+        color: #6c757d;
+        margin-bottom: 15px;
+    }
+    
+    .sample-data {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .sample-table {
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-file-csv"></i> CSV Import
+            </h1>
+            
+            <!-- Navigation Pills -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_bulk_operations' %}">
+                        <i class="fas fa-tasks"></i> Bulk Operations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'admin_csv_import' %}">
+                        <i class="fas fa-file-csv"></i> CSV Import
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_reports' %}">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_audit_logs' %}">
+                        <i class="fas fa-history"></i> Audit Logs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_api_dashboard' %}">
+                        <i class="fas fa-code"></i> API Dashboard
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Import Form -->
+    <div class="import-card">
+        <h3><i class="fas fa-upload"></i> Import Data</h3>
+        <p class="text-muted">Upload CSV files to import modules or students in bulk</p>
+        
+        <form method="post" enctype="multipart/form-data" id="csv-import-form">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="model_type"><strong>Select Data Type:</strong></label>
+                        <select class="form-control" id="model_type" name="model_type" required>
+                            <option value="">Choose data type...</option>
+                            {% for value, label in model_types %}
+                            <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="csv_file"><strong>Select CSV File:</strong></label>
+                        <input type="file" class="form-control-file" id="csv_file" name="csv_file" 
+                               accept=".csv" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="file-upload-area" id="drop-zone">
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <h5>Drag & Drop your CSV file here</h5>
+                <p class="text-muted">or click to browse</p>
+                <input type="file" id="drag-file" accept=".csv" style="display: none;">
+            </div>
+            
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="fas fa-upload"></i> Import Data
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Template Downloads -->
+    <div class="import-card">
+        <h3><i class="fas fa-download"></i> Download Templates</h3>
+        <p class="text-muted">Download sample CSV templates to ensure proper formatting</p>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="template-download">
+                    <h5><i class="fas fa-book"></i> Module Template</h5>
+                    <p>Template for importing modules with all required fields</p>
+                    <a href="#" class="btn btn-outline-primary" onclick="downloadTemplate('modules')">
+                        <i class="fas fa-download"></i> Download Module Template
+                    </a>
+                    
+                    <div class="sample-data">
+                        <h6>Required Fields:</h6>
+                        <table class="table table-sm sample-table">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Description</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>name</td><td>Module name</td><td>Introduction to Computer Science</td></tr>
+                                <tr><td>code</td><td>Module code</td><td>CS101</td></tr>
+                                <tr><td>credit</td><td>Credit hours</td><td>3</td></tr>
+                                <tr><td>category</td><td>Category</td><td>CS</td></tr>
+                                <tr><td>description</td><td>Module description</td><td>Basic concepts...</td></tr>
+                                <tr><td>availability</td><td>Available for registration</td><td>true</td></tr>
+                                <tr><td>courses_allowed</td><td>Maximum students</td><td>50</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="template-download">
+                    <h5><i class="fas fa-user-graduate"></i> Student Template</h5>
+                    <p>Template for importing students with user accounts</p>
+                    <a href="#" class="btn btn-outline-primary" onclick="downloadTemplate('students')">
+                        <i class="fas fa-download"></i> Download Student Template
+                    </a>
+                    
+                    <div class="sample-data">
+                        <h6>Required Fields:</h6>
+                        <table class="table table-sm sample-table">
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Description</th>
+                                    <th>Example</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>username</td><td>Unique username</td><td>john.doe</td></tr>
+                                <tr><td>email</td><td>Email address</td><td>john@example.com</td></tr>
+                                <tr><td>password</td><td>Initial password</td><td>password123</td></tr>
+                                <tr><td>first_name</td><td>First name</td><td>John</td></tr>
+                                <tr><td>last_name</td><td>Last name</td><td>Doe</td></tr>
+                                <tr><td>date_of_birth</td><td>Date of birth</td><td>1995-05-15</td></tr>
+                                <tr><td>city</td><td>City</td><td>New York</td></tr>
+                                <tr><td>country</td><td>Country</td><td>USA</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import History -->
+    <div class="import-card">
+        <h3><i class="fas fa-history"></i> Import History</h3>
+        <p class="text-muted">Track your previous imports and their status</p>
+        
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>File</th>
+                        <th>Status</th>
+                        <th>Records</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">
+                            No import history available
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Import Guidelines -->
+    <div class="import-card">
+        <h3><i class="fas fa-info-circle"></i> Import Guidelines</h3>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h5><i class="fas fa-exclamation-triangle text-warning"></i> Important Notes:</h5>
+                <ul>
+                    <li>CSV files must use comma (,) as delimiter</li>
+                    <li>First row should contain column headers</li>
+                    <li>Dates should be in YYYY-MM-DD format</li>
+                    <li>Boolean values should be 'true' or 'false'</li>
+                    <li>Ensure unique values for username and module codes</li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5><i class="fas fa-check-circle text-success"></i> Best Practices:</h5>
+                <ul>
+                    <li>Test with small files first</li>
+                    <li>Backup your data before large imports</li>
+                    <li>Validate data format before uploading</li>
+                    <li>Use the provided templates as reference</li>
+                    <li>Check for duplicate entries</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Drag and drop functionality
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('csv_file');
+    const dragFileInput = document.getElementById('drag-file');
+
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            updateFileName(files[0].name);
+        }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            updateFileName(e.target.files[0].name);
+        }
+    });
+
+    function updateFileName(fileName) {
+        const dropZone = document.getElementById('drop-zone');
+        dropZone.innerHTML = `
+            <div class="upload-icon text-success">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h5>File Selected</h5>
+            <p class="text-muted">${fileName}</p>
+        `;
+    }
+
+    // Template download functionality
+    function downloadTemplate(type) {
+        let csvContent = '';
+        let filename = '';
+        
+        if (type === 'modules') {
+            filename = 'module_template.csv';
+            csvContent = 'name,code,credit,category,description,availability,courses_allowed\n' +
+                        'Introduction to Computer Science,CS101,3,CS,Basic concepts of computer science,true,50\n' +
+                        'Advanced Mathematics,MATH201,4,MATH,Advanced mathematical concepts,true,30';
+        } else if (type === 'students') {
+            filename = 'student_template.csv';
+            csvContent = 'username,email,password,first_name,last_name,date_of_birth,city,country\n' +
+                        'john.doe,john@example.com,password123,John,Doe,1995-05-15,New York,USA\n' +
+                        'jane.smith,jane@example.com,password123,Jane,Smith,1996-08-20,London,UK';
+        }
+        
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
+    // Form validation
+    document.getElementById('csv-import-form').addEventListener('submit', function(e) {
+        const modelType = document.getElementById('model_type').value;
+        const csvFile = document.getElementById('csv_file').files[0];
+        
+        if (!modelType) {
+            e.preventDefault();
+            alert('Please select a data type.');
+            return false;
+        }
+        
+        if (!csvFile) {
+            e.preventDefault();
+            alert('Please select a CSV file.');
+            return false;
+        }
+        
+        if (!csvFile.name.toLowerCase().endsWith('.csv')) {
+            e.preventDefault();
+            alert('Please select a valid CSV file.');
+            return false;
+        }
+        
+        if (!confirm('Are you sure you want to import this data? This action cannot be undone.')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,302 @@
+{% extends "registration/base.html" %}
+{% load static %}
+
+{% block title %}Admin Dashboard - Skylark Academy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stats-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .stats-label {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+    
+    .chart-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .recent-activity {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .activity-item {
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    
+    .nav-pills .nav-link {
+        border-radius: 20px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .nav-pills .nav-link.active {
+        background-color: #667eea;
+    }
+    
+    .progress {
+        margin-top: 5px;
+        height: 8px;
+    }
+    
+    .progress-bar[data-width] {
+        width: 0;
+        transition: width 0.6s ease;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+            </h1>
+            
+            <!-- Navigation Pills -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'admin_dashboard' %}">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_bulk_operations' %}">
+                        <i class="fas fa-tasks"></i> Bulk Operations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_csv_import' %}">
+                        <i class="fas fa-file-csv"></i> CSV Import
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_reports' %}">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_audit_logs' %}">
+                        <i class="fas fa-history"></i> Audit Logs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_api_dashboard' %}">
+                        <i class="fas fa-code"></i> API Dashboard
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-number">{{ total_students }}</div>
+                <div class="stats-label">Total Students</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-number">{{ total_modules }}</div>
+                <div class="stats-label">Total Modules</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-number">{{ total_registrations }}</div>
+                <div class="stats-label">Total Registrations</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-number">{{ active_modules }}</div>
+                <div class="stats-label">Active Modules</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Recent Activity -->
+        <div class="col-md-6">
+            <div class="recent-activity">
+                <h4><i class="fas fa-clock"></i> Recent Registrations</h4>
+                {% if recent_registrations %}
+                    {% for registration in recent_registrations %}
+                    <div class="activity-item">
+                        <strong>{{ registration.student.user.get_full_name }}</strong> registered for 
+                        <strong>{{ registration.module.name }}</strong>
+                        <small class="text-muted float-right">
+                            {{ registration.registration_date|timesince }} ago
+                        </small>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No recent registrations</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recent Students -->
+        <div class="col-md-6">
+            <div class="recent-activity">
+                <h4><i class="fas fa-user-plus"></i> Recent Students</h4>
+                {% if recent_students %}
+                    {% for student in recent_students %}
+                    <div class="activity-item">
+                        <strong>{{ student.user.get_full_name }}</strong> joined
+                        <small class="text-muted float-right">
+                            {{ student.created_at|timesince }} ago
+                        </small>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No recent students</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Module Statistics -->
+        <div class="col-md-8">
+            <div class="chart-container">
+                <h4><i class="fas fa-chart-bar"></i> Module Enrollment Statistics</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Code</th>
+                                <th>Students</th>
+                                <th>Available Slots</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for module in module_stats %}
+                            <tr>
+                                <td>{{ module.name }}</td>
+                                <td><code>{{ module.code }}</code></td>
+                                <td>
+                                    <span class="badge badge-primary">{{ module.student_count }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge badge-{% if module.available_slots > 0 %}success{% else %}danger{% endif %}">
+                                        {{ module.available_slots }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if module.availability %}
+                                        <span class="badge badge-success">Active</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">Inactive</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Distribution -->
+        <div class="col-md-4">
+            <div class="chart-container">
+                <h4><i class="fas fa-pie-chart"></i> Category Distribution</h4>
+                {% for category in category_stats %}
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>{{ category.category }}</span>
+                        <span class="badge badge-info">{{ category.count }}</span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" data-width="{{ category.count|divisibleby:total_modules|mul:100 }}"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Registration Status -->
+        <div class="col-md-6">
+            <div class="chart-container">
+                <h4><i class="fas fa-list-check"></i> Registration Status</h4>
+                {% for status in status_stats %}
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>{{ status.get_status_display }}</span>
+                        <span class="badge badge-secondary">{{ status.count }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Top Modules -->
+        <div class="col-md-6">
+            <div class="chart-container">
+                <h4><i class="fas fa-trophy"></i> Top Performing Modules</h4>
+                {% for module in top_modules %}
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                        <span>{{ module.name }}</span>
+                        <span class="badge badge-success">{{ module.registration_count }} students</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Initialize progress bars and other interactive elements
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize progress bars
+        document.querySelectorAll('.progress-bar[data-width]').forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            bar.style.width = `${width}%`;
+            bar.setAttribute('aria-valuenow', width);
+            bar.setAttribute('aria-valuemin', 0);
+            bar.setAttribute('aria-valuemax', 100);
+        });
+        
+        // Initialize any charts here if needed
+        console.log('Admin dashboard loaded');
+    });
+</script>
+{% endblock %}

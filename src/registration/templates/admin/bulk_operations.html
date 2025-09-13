@@ -1,0 +1,315 @@
+{% extends "registration/base.html" %}
+{% load static %}
+
+{% block title %}Bulk Operations - Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .operation-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .selection-table {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .bulk-actions {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .action-button {
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-tasks"></i> Bulk Operations
+            </h1>
+            
+            <!-- Navigation Pills -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'admin_bulk_operations' %}">
+                        <i class="fas fa-tasks"></i> Bulk Operations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_csv_import' %}">
+                        <i class="fas fa-file-csv"></i> CSV Import
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_reports' %}">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_audit_logs' %}">
+                        <i class="fas fa-history"></i> Audit Logs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_api_dashboard' %}">
+                        <i class="fas fa-code"></i> API Dashboard
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Module Management -->
+    <div class="operation-card">
+        <h3><i class="fas fa-book"></i> Module Management</h3>
+        <p class="text-muted">Select modules to perform bulk operations</p>
+        
+        <form method="post" id="module-form">
+            {% csrf_token %}
+            <div class="bulk-actions">
+                <h5>Bulk Actions:</h5>
+                <button type="submit" name="action" value="activate_modules" class="btn btn-success action-button">
+                    <i class="fas fa-check"></i> Activate Selected
+                </button>
+                <button type="submit" name="action" value="deactivate_modules" class="btn btn-warning action-button">
+                    <i class="fas fa-pause"></i> Deactivate Selected
+                </button>
+                <button type="submit" name="action" value="duplicate_modules" class="btn btn-info action-button">
+                    <i class="fas fa-copy"></i> Duplicate Selected
+                </button>
+                <button type="submit" name="action" value="export_modules" class="btn btn-secondary action-button">
+                    <i class="fas fa-download"></i> Export Selected
+                </button>
+            </div>
+            
+            <div class="table-responsive selection-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="select-all-modules">
+                            </th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Credit</th>
+                            <th>Status</th>
+                            <th>Students</th>
+                            <th>Available Slots</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for module in modules %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selected_items" value="{{ module.id }}" class="module-checkbox">
+                            </td>
+                            <td><code>{{ module.code }}</code></td>
+                            <td>{{ module.name }}</td>
+                            <td>{{ module.get_category_display }}</td>
+                            <td>{{ module.credit }}</td>
+                            <td>
+                                {% if module.availability %}
+                                    <span class="badge badge-success">Active</span>
+                                {% else %}
+                                    <span class="badge badge-secondary">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge badge-primary">{{ module.registrations.count }}</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-{% if module.available_slots > 0 %}success{% else %}danger{% endif %}">
+                                    {{ module.available_slots }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+
+    <!-- Registration Management -->
+    <div class="operation-card">
+        <h3><i class="fas fa-user-graduate"></i> Registration Management</h3>
+        <p class="text-muted">Select registrations to perform bulk operations</p>
+        
+        <form method="post" id="registration-form">
+            {% csrf_token %}
+            <div class="bulk-actions">
+                <h5>Bulk Actions:</h5>
+                <button type="submit" name="action" value="approve_registrations" class="btn btn-success action-button">
+                    <i class="fas fa-check"></i> Approve Selected
+                </button>
+                <button type="submit" name="action" value="reject_registrations" class="btn btn-danger action-button">
+                    <i class="fas fa-times"></i> Reject Selected
+                </button>
+                <button type="submit" name="action" value="waitlist_registrations" class="btn btn-warning action-button">
+                    <i class="fas fa-clock"></i> Waitlist Selected
+                </button>
+                <button type="submit" name="action" value="export_registrations" class="btn btn-secondary action-button">
+                    <i class="fas fa-download"></i> Export Selected
+                </button>
+            </div>
+            
+            <div class="table-responsive selection-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                <input type="checkbox" id="select-all-registrations">
+                            </th>
+                            <th>Student</th>
+                            <th>Module</th>
+                            <th>Status</th>
+                            <th>Grade</th>
+                            <th>Registration Date</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for registration in registrations %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selected_items" value="{{ registration.id }}" class="registration-checkbox">
+                            </td>
+                            <td>
+                                <strong>{{ registration.student.user.get_full_name }}</strong><br>
+                                <small class="text-muted">{{ registration.student.student_id }}</small>
+                            </td>
+                            <td>
+                                <strong>{{ registration.module.name }}</strong><br>
+                                <small class="text-muted">{{ registration.module.code }}</small>
+                            </td>
+                            <td>
+                                {% if registration.status == 'A' %}
+                                    <span class="badge badge-success">Approved</span>
+                                {% elif registration.status == 'R' %}
+                                    <span class="badge badge-danger">Rejected</span>
+                                {% elif registration.status == 'W' %}
+                                    <span class="badge badge-warning">Waitlisted</span>
+                                {% elif registration.status == 'P' %}
+                                    <span class="badge badge-info">Pending</span>
+                                {% else %}
+                                    <span class="badge badge-secondary">{{ registration.get_status_display }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if registration.grade %}
+                                    <span class="badge badge-primary">{{ registration.grade }}</span>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <small>{{ registration.registration_date|date:"M d, Y" }}</small>
+                            </td>
+                            <td>
+                                {% if registration.notes %}
+                                    <small class="text-muted">{{ registration.notes|truncatechars:30 }}</small>
+                                {% else %}
+                                    <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="operation-card">
+        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">System Maintenance</h5>
+                        <p class="card-text">Perform system-wide operations</p>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-database"></i> Backup Database
+                        </button>
+                        <button class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-sync"></i> Clear Cache
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Data Management</h5>
+                        <p class="card-text">Manage system data</p>
+                        <button class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-archive"></i> Archive Old Data
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-trash"></i> Cleanup Orphans
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Select all checkboxes functionality
+    document.getElementById('select-all-modules').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.module-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    document.getElementById('select-all-registrations').addEventListener('change', function() {
+        const checkboxes = document.querySelectorAll('.registration-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    // Form submission confirmation
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const selectedItems = this.querySelectorAll('input[name="selected_items"]:checked');
+            if (selectedItems.length === 0) {
+                e.preventDefault();
+                alert('Please select at least one item to perform the operation.');
+                return false;
+            }
+            
+            const action = e.submitter.value;
+            const count = selectedItems.length;
+            
+            if (!confirm(`Are you sure you want to perform "${action}" on ${count} selected item(s)?`)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+
+{% block title %}My Registrations{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-book-open text-primary"></i>
+                My Module Registrations
+            </h1>
+            
+            {% if registrations %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    You are currently registered for <strong>{{ registrations.count }}</strong> module(s).
+                </div>
+                
+                <div class="row">
+                    {% for registration in registrations %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    {{ registration.module.code }}
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">{{ registration.module.name }}</h6>
+                                <p class="card-text">{{ registration.module.description|truncatewords:20 }}</p>
+                                
+                                <div class="row text-center mb-3">
+                                    <div class="col-6">
+                                        <small class="text-muted">Credits</small>
+                                        <div class="badge badge-info">{{ registration.module.credit }}</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">Category</small>
+                                        <div class="badge badge-secondary">{{ registration.module.get_category_display }}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row text-center mb-3">
+                                    <div class="col-6">
+                                        <small class="text-muted">Status</small>
+                                        {% if registration.status == 'A' %}
+                                            <div class="badge badge-success">Approved</div>
+                                        {% elif registration.status == 'P' %}
+                                            <div class="badge badge-warning">Pending</div>
+                                        {% elif registration.status == 'W' %}
+                                            <div class="badge badge-info">Waitlisted</div>
+                                        {% else %}
+                                            <div class="badge badge-secondary">{{ registration.get_status_display }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">Grade</small>
+                                        {% if registration.grade %}
+                                            <div class="badge badge-primary">{{ registration.grade }}</div>
+                                        {% else %}
+                                            <div class="badge badge-light">N/A</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        Registered: {{ registration.registration_date|date:"M d, Y" }}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-light">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href="{% url 'module_detail' registration.module.code %}" class="btn btn-outline-primary btn-sm w-100">
+                                            <i class="fas fa-eye"></i> View Details
+                                        </a>
+                                    </div>
+                                    <div class="col-6">
+                                        <form method="post" action="{% url 'unregister_module' registration.module.code %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-outline-danger btn-sm w-100" 
+                                                    onclick="return confirm('Are you sure you want to unregister from {{ registration.module.name }}?')">
+                                                <i class="fas fa-times"></i> Unregister
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{% url 'modules' %}" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Browse More Modules
+                    </a>
+                </div>
+                
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-book-open fa-4x text-muted mb-3"></i>
+                    <h3 class="text-muted">No Module Registrations</h3>
+                    <p class="text-muted">You haven't registered for any modules yet.</p>
+                    <a href="{% url 'modules' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-search"></i> Browse Available Modules
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

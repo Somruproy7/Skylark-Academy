@@ -1,0 +1,470 @@
+{% extends "registration/base.html" %}
+{% load static %}
+
+{% block title %}Reports - Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .report-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .report-nav {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .report-nav .nav-link {
+        border-radius: 20px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .report-nav .nav-link.active {
+        background-color: #667eea;
+        color: white;
+    }
+    
+    .stats-highlight {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .stats-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .chart-placeholder {
+        background: #f8f9fa;
+        border: 2px dashed #dee2e6;
+        border-radius: 10px;
+        padding: 60px 20px;
+        text-align: center;
+        color: #6c757d;
+    }
+    
+    .export-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 20px;
+    }
+    
+    .progress {
+        margin-top: 5px;
+        height: 8px;
+    }
+    
+    .progress-bar[data-width] {
+        width: 0;
+        transition: width 0.6s ease;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-chart-bar"></i> Reports & Analytics
+            </h1>
+            
+            <!-- Navigation Pills -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_bulk_operations' %}">
+                        <i class="fas fa-tasks"></i> Bulk Operations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_csv_import' %}">
+                        <i class="fas fa-file-csv"></i> CSV Import
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'admin_reports' %}">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_audit_logs' %}">
+                        <i class="fas fa-history"></i> Audit Logs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_api_dashboard' %}">
+                        <i class="fas fa-code"></i> API Dashboard
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Report Type Navigation -->
+    <div class="report-nav">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link {% if report_type == 'enrollment' %}active{% endif %}" 
+                   href="?type=enrollment">
+                    <i class="fas fa-user-graduate"></i> Enrollment Report
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if report_type == 'geographic' %}active{% endif %}" 
+                   href="?type=geographic">
+                    <i class="fas fa-globe"></i> Geographic Distribution
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if report_type == 'academic' %}active{% endif %}" 
+                   href="?type=academic">
+                    <i class="fas fa-graduation-cap"></i> Academic Performance
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    {% if report_type == 'enrollment' %}
+    <!-- Enrollment Report -->
+    <div class="stats-highlight">
+        <div class="stats-number">{{ total_students }}</div>
+        <div class="stats-label">Total Students</div>
+        <small>{{ total_registrations }} Total Registrations</small>
+    </div>
+
+    <div class="report-card">
+        <h3><i class="fas fa-list"></i> Module Enrollment Summary</h3>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Code</th>
+                        <th>Total Students</th>
+                        <th>Male Students</th>
+                        <th>Female Students</th>
+                        <th>Available Slots</th>
+                        <th>Utilization %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for module in modules %}
+                    <tr>
+                        <td>{{ module.name }}</td>
+                        <td><code>{{ module.code }}</code></td>
+                        <td>
+                            <span class="badge badge-primary">{{ module.student_count }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-info">{{ module.male_count }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-info">{{ module.female_count }}</span>
+                        </td>
+                        <td>
+                            <span class="badge badge-{% if module.available_slots > 0 %}success{% else %}danger{% endif %}">
+                                {{ module.available_slots }}
+                            </span>
+                        </td>
+                        <td>
+                            {% widthratio module.student_count module.courses_allowed 100 %}%
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="export-section">
+            <h5>Export Options:</h5>
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-download"></i> Export to PDF
+            </button>
+            <button class="btn btn-outline-success btn-sm">
+                <i class="fas fa-file-excel"></i> Export to Excel
+            </button>
+            <button class="btn btn-outline-info btn-sm">
+                <i class="fas fa-chart-bar"></i> Generate Charts
+            </button>
+        </div>
+    </div>
+
+    {% elif report_type == 'geographic' %}
+    <!-- Geographic Distribution Report -->
+    <div class="report-card">
+        <h3><i class="fas fa-map-marker-alt"></i> Geographic Distribution</h3>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h5><i class="fas fa-city"></i> Top Cities</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>Students</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for city in city_stats %}
+                            <tr>
+                                <td>{{ city.city }}</td>
+                                <td>
+                                    <span class="badge badge-primary">{{ city.count }}</span>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" 
+                                             data-width="{% widthratio city.count total_students 100 %}"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h5><i class="fas fa-flag"></i> Countries</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Country</th>
+                                <th>Students</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for country in country_stats %}
+                            <tr>
+                                <td>{{ country.country }}</td>
+                                <td>
+                                    <span class="badge badge-success">{{ country.count }}</span>
+                                </td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" 
+                                             data-width="{% widthratio country.count total_students 100 %}"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-placeholder">
+            <i class="fas fa-chart-pie fa-3x mb-3"></i>
+            <h5>Geographic Distribution Chart</h5>
+            <p>Interactive charts and maps would be displayed here</p>
+        </div>
+    </div>
+
+    {% elif report_type == 'academic' %}
+    <!-- Academic Performance Report -->
+    <div class="report-card">
+        <h3><i class="fas fa-graduation-cap"></i> Academic Performance</h3>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h5><i class="fas fa-chart-line"></i> Grade Distribution</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Grade</th>
+                                <th>Count</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for grade in grade_stats %}
+                            <tr>
+                                <td>
+                                    <span class="badge badge-{% if grade.grade == 'A' %}success{% elif grade.grade == 'B' %}info{% elif grade.grade == 'C' %}warning{% else %}secondary{% endif %}">
+                                        {{ grade.grade }}
+                                    </span>
+                                </td>
+                                <td>{{ grade.count }}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" 
+                                             data-width="{% widthratio grade.count total_registrations 100 %}"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h5><i class="fas fa-trophy"></i> Module Performance</h5>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Avg Grade</th>
+                                <th>Students</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for module in module_performance %}
+                            <tr>
+                                <td>{{ module.name }}</td>
+                                <td>
+                                    <span class="badge badge-{% if module.avg_grade >= 'B' %}success{% elif module.avg_grade >= 'C' %}warning{% else %}danger{% endif %}">
+                                        {{ module.avg_grade }}
+                                    </span>
+                                </td>
+                                <td>{{ module.total_students }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-placeholder">
+            <i class="fas fa-chart-bar fa-3x mb-3"></i>
+            <h5>Performance Trends</h5>
+            <p>Performance charts and trends would be displayed here</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Report Generation Options -->
+    <div class="report-card">
+        <h3><i class="fas fa-cog"></i> Report Generation</h3>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Custom Date Range</h5>
+                <div class="form-group">
+                    <label>From Date:</label>
+                    <input type="date" class="form-control" id="from_date">
+                </div>
+                <div class="form-group">
+                    <label>To Date:</label>
+                    <input type="date" class="form-control" id="to_date">
+                </div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-sync"></i> Generate Report
+                </button>
+            </div>
+            
+            <div class="col-md-6">
+                <h5>Export Options</h5>
+                <div class="form-group">
+                    <label>Format:</label>
+                    <select class="form-control">
+                        <option>PDF</option>
+                        <option>Excel</option>
+                        <option>CSV</option>
+                        <option>JSON</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Include Charts:</label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="include_charts" checked>
+                        <label class="form-check-label" for="include_charts">Include visual charts</label>
+                    </div>
+                </div>
+                <button class="btn btn-success">
+                    <i class="fas fa-download"></i> Export Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scheduled Reports -->
+    <div class="report-card">
+        <h3><i class="fas fa-clock"></i> Scheduled Reports</h3>
+        <p class="text-muted">Set up automated report generation and delivery</p>
+        
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Report Name</th>
+                        <th>Frequency</th>
+                        <th>Recipients</th>
+                        <th>Last Sent</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">
+                            No scheduled reports configured
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <button class="btn btn-outline-primary">
+            <i class="fas fa-plus"></i> Schedule New Report
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Report generation functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize progress bars
+        document.querySelectorAll('.progress-bar[data-width]').forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            bar.style.width = `${width}%`;
+            bar.setAttribute('aria-valuenow', width);
+            bar.setAttribute('aria-valuemin', 0);
+            bar.setAttribute('aria-valuemax', 100);
+        });
+        
+        // Initialize any charts here if needed
+        console.log('Reports page loaded');
+    });
+    
+    // Export functionality
+    function exportReport(format) {
+        console.log('Exporting report as', format);
+        // Add export functionality here
+    }
+    
+    // Schedule report functionality
+    function scheduleReport() {
+        console.log('Scheduling report');
+        // Add schedule functionality here
+    }
+</script>
+{% endblock %}

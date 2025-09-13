@@ -1,0 +1,422 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}Profile - Skylark Academy{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">Student Profile</h1>
+        <p class="lead mb-4">Manage your personal information and academic registrations</p>
+    </div>
+</section>
+
+<!-- Profile Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Profile Information -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        {% if student and student.photo %}
+                            <img src="{{ student.photo.url }}" alt="Profile Photo" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <div class="rounded-circle bg-secondary d-inline-flex align-items-center justify-content-center mb-3" style="width: 150px; height: 150px;">
+                                <i class="fas fa-user fa-4x text-white"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <h4 class="fw-bold">{{ user.get_full_name|default:user.username }}</h4>
+                        <p class="text-muted">{{ user.email }}</p>
+                        
+                        {% if student %}
+                            <div class="text-start">
+                                <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+                                <p><strong>Date of Birth:</strong> {{ student.date_of_birth|date:"F j, Y" }}</p>
+                                <p><strong>City:</strong> {{ student.city|default:"Not specified" }}</p>
+                                <p><strong>Country:</strong> {{ student.country|default:"Not specified" }}</p>
+                                
+                                <!-- Course Enrollment Status -->
+                                {% if student.course %}
+                                    <div class="alert alert-success mt-3">
+                                        <h6 class="mb-1"><i class="fas fa-graduation-cap"></i> Enrolled Course</h6>
+                                        <strong>{{ student.course.name }}</strong> ({{ student.course.code }})
+                                        <br><small class="text-muted">{{ student.course.duration_years }} Years • {{ student.course.total_credits }} Credits</small>
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-warning mt-3">
+                                        <h6 class="mb-1"><i class="fas fa-exclamation-triangle"></i> Not Enrolled</h6>
+                                        <p class="mb-2">You haven't enrolled in any course yet.</p>
+                                        <a href="{% url 'courses' %}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-search"></i> Browse Courses
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                        
+                        <div class="d-grid gap-2 mt-3">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPersonalDetailsModal">
+                                <i class="fas fa-user-edit me-2"></i>Update Personal Details
+                            </button>
+                            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editCourseModal">
+                                <i class="fas fa-graduation-cap me-2"></i>Update Course Enrollment
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-3">Academic Summary</h5>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <h4 class="text-primary">{{ registrations.count }}</h4>
+                                <small class="text-muted">Registered Modules</small>
+                            </div>
+                            <div class="col-6">
+                                <h4 class="text-success">
+                                    {% if registrations %}
+                                        {% for registration in registrations %}
+                                            {% if forloop.first %}
+                                                {{ registration.module.credit }}
+                                            {% else %}
+                                                {% widthratio registration.module.credit 1 1 as credit %}
+                                                {{ credit|add:forloop.counter0 }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                </h4>
+                                <small class="text-muted">Total Credits</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Registrations -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="fw-bold mb-0">My Registrations</h3>
+                            <a href="{% url 'modules' %}" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Register for More
+                            </a>
+                        </div>
+                        
+                        {% if registrations %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Module Code</th>
+                                            <th>Module Name</th>
+                                            <th>Category</th>
+                                            <th>Credits</th>
+                                            <th>Registration Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for registration in registrations %}
+                                        <tr>
+                                            <td>
+                                                <span class="badge bg-primary">{{ registration.module.code }}</span>
+                                            </td>
+                                            <td>
+                                                <strong>{{ registration.module.name }}</strong>
+                                                <br>
+                                                <small class="text-muted">{{ registration.module.description|truncatewords:10 }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">{{ registration.module.get_category_display }}</span>
+                                            </td>
+                                            <td>
+                                                <strong>{{ registration.module.credit }}</strong>
+                                            </td>
+                                            <td>
+                                                <small class="text-muted">{{ registration.date_of_registration|date:"M j, Y" }}</small>
+                                            </td>
+                                            <td>
+                                                <form method="post" action="{% url 'unregister_module' registration.module.code %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger btn-sm" 
+                                                            onclick="return confirm('Are you sure you want to unregister from {{ registration.module.name }}?')">
+                                                        <i class="fas fa-times me-1"></i>Unregister
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-5">
+                                <i class="fas fa-book fa-4x text-muted mb-4"></i>
+                                <h4 class="text-muted">No registrations yet</h4>
+                                <p class="text-muted">Start your academic journey by registering for modules.</p>
+                                <a href="{% url 'modules' %}" class="btn btn-primary">
+                                    <i class="fas fa-search me-2"></i>Browse Modules
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Academic Progress -->
+                {% if registrations %}
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-3">Academic Progress</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Credits by Category</h6>
+                                <div class="mb-3">
+                                    {% with categories="CS,MATH,ENG,BUS,ART" %}
+                                        {% for category in categories.split %}
+                                            {% with category_credits=0 %}
+                                                {% for registration in registrations %}
+                                                    {% if registration.module.category == category %}
+                                                        {% with category_credits=category_credits|add:registration.module.credit %}{% endwith %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if category_credits > 0 %}
+                                                    <div class="d-flex justify-content-between mb-2">
+                                                        <span>{{ category }}</span>
+                                                        <span class="badge bg-primary">{{ category_credits }} credits</span>
+                                                    </div>
+                                                {% endif %}
+                                            {% endwith %}
+                                        {% endfor %}
+                                    {% endwith %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Recent Activity</h6>
+                                <div class="timeline">
+                                    {% for registration in registrations|slice:":5" %}
+                                    <div class="d-flex mb-2">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <small class="text-muted">{{ registration.date_of_registration|date:"M j, Y" }}</small>
+                                            <br>
+                                            <small>Registered for {{ registration.module.name }}</small>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Available Course Modules -->
+                {% if student and student.course and course_modules %}
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-list-alt"></i>
+                                        Available Modules for {{ student.course.name }}
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        {% for module in course_modules %}
+                                        <div class="col-md-6 col-lg-4">
+                                            <div class="card border-info h-100">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">{{ module.code }} - {{ module.name }}</h6>
+                                                    <p class="card-text small text-muted">{{ module.description|truncatewords:15 }}</p>
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span class="badge bg-primary">{{ module.credit }} Credits</span>
+                                                        <span class="badge bg-secondary">{{ module.get_category_display }}</span>
+                                                    </div>
+                                                    <form method="post" action="{% url 'register_module' module.code %}" class="d-grid">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm btn-outline-success">
+                                                            <i class="fas fa-plus"></i> Register
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Edit Personal Details Modal -->
+<div class="modal fade" id="editPersonalDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Personal Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="update_personal_details" value="1">
+                <div class="modal-body">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Note:</strong> This will only update your personal details. Your course enrollment and module registrations will remain unchanged.
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="{{ personal_form.date_of_birth.id_for_label }}" class="form-label">Date of Birth *</label>
+                            {{ personal_form.date_of_birth }}
+                            {% if personal_form.date_of_birth.errors %}
+                                <div class="text-danger small">{{ personal_form.date_of_birth.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ personal_form.gender.id_for_label }}" class="form-label">Gender</label>
+                            {{ personal_form.gender }}
+                            {% if personal_form.gender.errors %}
+                                <div class="text-danger small">{{ personal_form.gender.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="{{ personal_form.address.id_for_label }}" class="form-label">Address</label>
+                            {{ personal_form.address }}
+                            {% if personal_form.address.errors %}
+                                <div class="text-danger small">{{ personal_form.address.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="{{ personal_form.city.id_for_label }}" class="form-label">City *</label>
+                            {{ personal_form.city }}
+                            {% if personal_form.city.errors %}
+                                <div class="text-danger small">{{ personal_form.city.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="{{ personal_form.state.id_for_label }}" class="form-label">State</label>
+                            {{ personal_form.state }}
+                            {% if personal_form.state.errors %}
+                                <div class="text-danger small">{{ personal_form.state.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="{{ personal_form.country.id_for_label }}" class="form-label">Country *</label>
+                            {{ personal_form.country }}
+                            {% if personal_form.country.errors %}
+                                <div class="text-danger small">{{ personal_form.country.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ personal_form.phone.id_for_label }}" class="form-label">Phone</label>
+                            {{ personal_form.phone }}
+                            {% if personal_form.phone.errors %}
+                                <div class="text-danger small">{{ personal_form.phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ personal_form.emergency_contact.id_for_label }}" class="form-label">Emergency Contact</label>
+                            {{ personal_form.emergency_contact }}
+                            {% if personal_form.emergency_contact.errors %}
+                                <div class="text-danger small">{{ personal_form.emergency_contact.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="{{ personal_form.bio.id_for_label }}" class="form-label">Bio</label>
+                            {{ personal_form.bio }}
+                            {% if personal_form.bio.errors %}
+                                <div class="text-danger small">{{ personal_form.bio.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="{{ personal_form.photo.id_for_label }}" class="form-label">Profile Photo</label>
+                            {{ personal_form.photo }}
+                            {% if personal_form.photo.errors %}
+                                <div class="text-danger small">{{ personal_form.photo.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Personal Details</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Course Enrollment Modal -->
+<div class="modal fade" id="editCourseModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Course Enrollment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> Changing your course enrollment may affect your module registrations.
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="{{ course_form.course.id_for_label }}" class="form-label">Course *</label>
+                            {{ course_form.course }}
+                            {% if course_form.course.errors %}
+                                <div class="text-danger small">{{ course_form.course.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ course_form.enrollment_date.id_for_label }}" class="form-label">Enrollment Date</label>
+                            {{ course_form.enrollment_date }}
+                            {% if course_form.enrollment_date.errors %}
+                                <div class="text-danger small">{{ course_form.enrollment_date.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="{{ course_form.expected_graduation.id_for_label }}" class="form-label">Expected Graduation</label>
+                            {{ course_form.expected_graduation }}
+                            {% if course_form.expected_graduation.errors %}
+                                <div class="text-danger small">{{ course_form.expected_graduation.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Course Enrollment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

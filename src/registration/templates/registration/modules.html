@@ -1,0 +1,265 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}Modules - Skylark Academy{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="page-hero">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">Available Modules</h1>
+        <p class="lead mb-4">Browse and register for your academic modules</p>
+    </div>
+</section>
+
+<!-- Search and Filter Section -->
+<section class="py-4">
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-6">
+                        <label for="{{ search_form.search.id_for_label }}" class="form-label">Search Modules</label>
+                        {{ search_form.search }}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="{{ search_form.category.id_for_label }}" class="form-label">Category</label>
+                        {{ search_form.category }}
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search me-1"></i>Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modules List -->
+<section class="py-4">
+    <div class="container">
+        {% if modules %}
+            <div class="row g-4">
+                {% for module in modules %}
+                <div class="col-lg-6 col-xl-4">
+                    <div class="card module-card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="card-title mb-0">{{ module.name }}</h5>
+                                <span class="badge bg-primary">{{ module.code }}</span>
+                            </div>
+                            
+                            <p class="card-text text-muted mb-3">{{ module.description|truncatewords:25 }}</p>
+                            
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted">Category:</small><br>
+                                    <span class="badge bg-secondary">{{ module.get_category_display }}</span>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Credits:</small><br>
+                                    <strong>{{ module.credit }}</strong>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted">Available Spots:</small><br>
+                                    <strong>{{ module.courses_allowed }}</strong>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Status:</small><br>
+                                    {% if module.availability %}
+                                        <span class="badge bg-success">Available</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Unavailable</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-transparent border-0">
+                            <!-- View Details Button -->
+                            <div class="mb-2">
+                                <a href="{% url 'module_detail' module.code %}" class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="fas fa-eye me-1"></i>View Details
+                                </a>
+                            </div>
+                            
+                            {% if user.is_authenticated %}
+                                {% if module.is_registered %}
+                                    <form method="post" action="{% url 'unregister_module' module.code %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm w-100" 
+                                                onclick="return confirm('Are you sure you want to unregister from {{ module.name }}?')">
+                                            <i class="fas fa-times me-1"></i>Unregister
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    {% if module.availability %}
+                                        {% if module.can_register %}
+                                            <form method="post" action="{% url 'register_module' module.code %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-success btn-sm w-100">
+                                                    <i class="fas fa-plus me-1"></i>Register
+                                                </button>
+                                            </form>
+                                        {% else %}
+                                            <a href="{% url 'profile' %}" class="btn btn-warning btn-sm w-100">
+                                                <i class="fas fa-graduation-cap me-1"></i>Enroll in Course First
+                                            </a>
+                                        {% endif %}
+                                    {% else %}
+                                        <button class="btn btn-secondary btn-sm w-100" disabled>
+                                            <i class="fas fa-ban me-1"></i>Unavailable
+                                        </button>
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="fas fa-sign-in-alt me-1"></i>Login to Register
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if modules.has_other_pages %}
+            <div class="row mt-5">
+                <div class="col-12">
+                    <nav aria-label="Modules pagination">
+                        <ul class="pagination justify-content-center">
+                            {% if modules.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ modules.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            
+                            {% for num in modules.paginator.page_range %}
+                                {% if modules.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% elif num > modules.number|add:'-3' and num < modules.number|add:'3' %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if modules.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ modules.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ modules.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Results Info -->
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <p class="text-muted">
+                        Showing {{ modules.start_index }} to {{ modules.end_index }} of {{ modules.paginator.count }} modules
+                    </p>
+                </div>
+            </div>
+            
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-search fa-4x text-muted mb-4"></i>
+                <h3 class="text-muted">No modules found</h3>
+                <p class="text-muted">Try adjusting your search criteria or browse all available modules.</p>
+                <a href="{% url 'modules' %}" class="btn btn-primary">
+                    <i class="fas fa-list me-2"></i>View All Modules
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Categories Info -->
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="fw-bold mb-3">Module Categories</h2>
+                <p class="lead text-muted">Explore our diverse range of academic disciplines</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-laptop-code fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Computer Science</h5>
+                        <p class="card-text">Programming, algorithms, software engineering, and computer systems.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-calculator fa-3x text-success mb-3"></i>
+                        <h5 class="card-title">Mathematics</h5>
+                        <p class="card-text">Pure mathematics, applied mathematics, statistics, and mathematical modeling.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-cogs fa-3x text-info mb-3"></i>
+                        <h5 class="card-title">Engineering</h5>
+                        <p class="card-text">Mechanical, electrical, civil, and chemical engineering principles.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
+                        <h5 class="card-title">Business</h5>
+                        <p class="card-text">Management, finance, marketing, entrepreneurship, and business strategy.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <i class="fas fa-palette fa-3x text-danger mb-3"></i>
+                        <h5 class="card-title">Arts</h5>
+                        <p class="card-text">Visual arts, performing arts, design, and creative expression.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

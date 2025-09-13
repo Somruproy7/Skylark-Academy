@@ -1,0 +1,1280 @@
+INFO 2025-08-25 03:05:26,361 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 03:05:30,393 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 03:05:30,396 views [REGISTER_MODULE] Found module: ART201 - Web Design
+ERROR 2025-08-25 03:05:30,398 views [REGISTER_MODULE] Unexpected error in register_module: 'Student' object has no attribute 'id'
+ERROR 2025-08-25 03:05:30,398 views Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 244, in register_module
+    logger.info(f"[REGISTER_MODULE] Found student profile: {student.id} - {student.user.username}")
+                                                            ^^^^^^^^^^
+AttributeError: 'Student' object has no attribute 'id'
+INFO 2025-08-25 03:05:30,421 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 03:05:30,465 basehttp "GET /modules/ HTTP/1.1" 200 48011
+INFO 2025-08-25 03:05:36,414 basehttp "GET /my-registrations/ HTTP/1.1" 200 8741
+INFO 2025-08-25 03:05:38,178 basehttp "GET / HTTP/1.1" 200 21295
+INFO 2025-08-25 03:05:38,949 basehttp "GET /courses/ HTTP/1.1" 200 44483
+INFO 2025-08-25 03:05:39,795 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 03:05:42,057 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 03:05:42,059 views [REGISTER_MODULE] Found module: ART201 - Web Design
+ERROR 2025-08-25 03:05:42,061 views [REGISTER_MODULE] Unexpected error in register_module: 'Student' object has no attribute 'id'
+ERROR 2025-08-25 03:05:42,061 views Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 244, in register_module
+    logger.info(f"[REGISTER_MODULE] Found student profile: {student.id} - {student.user.username}")
+                                                            ^^^^^^^^^^
+AttributeError: 'Student' object has no attribute 'id'
+INFO 2025-08-25 03:05:42,069 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 03:05:42,095 basehttp "GET /modules/ HTTP/1.1" 200 48011
+INFO 2025-08-25 03:08:29,461 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 03:08:31,349 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 03:09:47,413 basehttp "GET /my-registrations/ HTTP/1.1" 200 8741
+INFO 2025-08-25 03:09:48,153 basehttp "GET /profile/ HTTP/1.1" 200 42572
+INFO 2025-08-25 03:09:55,815 basehttp "GET /courses/ HTTP/1.1" 200 44483
+INFO 2025-08-25 03:09:57,363 basehttp "GET /courses/BAH/enroll/ HTTP/1.1" 302 0
+INFO 2025-08-25 03:09:57,386 basehttp "GET /profile/ HTTP/1.1" 200 42974
+INFO 2025-08-25 03:11:43,512 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-08-25 03:11:43,556 basehttp "GET / HTTP/1.1" 200 20988
+INFO 2025-08-25 03:11:45,526 basehttp "GET / HTTP/1.1" 200 20988
+INFO 2025-08-25 03:11:57,325 basehttp "GET /register/ HTTP/1.1" 200 17867
+ERROR 2025-08-25 03:12:22,955 log Internal Server Error: /register/
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: registration_user.is_student
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 56, in register_user
+    user = form.save()
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\contrib\auth\forms.py", line 265, in save
+    user = self.set_password_and_save(user, commit=commit)
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\contrib\auth\forms.py", line 154, in set_password_and_save
+    user.save()
+    ~~~~~~~~~^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 65, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: registration_user.is_student
+ERROR 2025-08-25 03:12:22,966 basehttp "POST /register/ HTTP/1.1" 500 178215
+INFO 2025-08-25 03:14:20,160 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 03:14:21,330 autoreload Watching for file changes with StatReloader
+ERROR 2025-08-25 03:15:16,168 log Internal Server Error: /register/
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: registration_user.is_teacher
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 59, in register_user
+    user.save()
+    ~~~~~~~~~^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\contrib\auth\base_user.py", line 65, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: registration_user.is_teacher
+ERROR 2025-08-25 03:15:16,179 basehttp "POST /register/ HTTP/1.1" 500 169719
+INFO 2025-08-25 03:15:53,517 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 03:15:54,366 autoreload Watching for file changes with StatReloader
+ERROR 2025-08-25 03:16:27,234 log Internal Server Error: /register/
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: NOT NULL constraint failed: registration_student.is_active
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 67, in register_user
+    Student.objects.create(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        user=user,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        # Note: course will need to be set later in profile completion
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 663, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\src\registration\models.py", line 215, in save
+    super().save(*args, **kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: NOT NULL constraint failed: registration_student.is_active
+ERROR 2025-08-25 03:16:27,245 basehttp "POST /register/ HTTP/1.1" 500 182478
+INFO 2025-08-25 10:40:42,453 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 10:40:45,428 basehttp "GET / HTTP/1.1" 200 20988
+WARNING 2025-08-25 10:40:47,892 log Not Found: /favicon.ico
+WARNING 2025-08-25 10:40:47,893 basehttp "GET /favicon.ico HTTP/1.1" 404 10107
+INFO 2025-08-25 10:41:00,783 basehttp "GET /register/ HTTP/1.1" 200 17867
+INFO 2025-08-25 10:41:36,182 basehttp "POST /register/ HTTP/1.1" 200 18326
+INFO 2025-08-25 10:41:40,300 basehttp "GET /accounts/login/ HTTP/1.1" 200 11032
+INFO 2025-08-25 10:41:52,719 basehttp "POST /accounts/login/ HTTP/1.1" 200 11286
+INFO 2025-08-25 10:44:14,268 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 10:44:19,167 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:44:19,190 basehttp "GET / HTTP/1.1" 200 21297
+INFO 2025-08-25 10:44:22,306 basehttp "GET /my-registrations/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:44:22,334 basehttp "GET /profile/ HTTP/1.1" 200 15067
+INFO 2025-08-25 10:44:31,372 basehttp "GET /courses/ HTTP/1.1" 200 42021
+INFO 2025-08-25 10:44:32,914 basehttp "GET /courses/BA/ HTTP/1.1" 200 33730
+INFO 2025-08-25 10:44:42,732 basehttp "GET /profile/ HTTP/1.1" 200 14720
+INFO 2025-08-25 10:45:00,675 basehttp "POST /profile/ HTTP/1.1" 200 14828
+INFO 2025-08-25 10:45:07,167 basehttp "POST /profile/ HTTP/1.1" 200 14828
+INFO 2025-08-25 10:45:10,903 basehttp "POST /profile/ HTTP/1.1" 200 14828
+INFO 2025-08-25 10:45:14,521 basehttp "POST /profile/ HTTP/1.1" 200 14828
+INFO 2025-08-25 10:45:17,648 basehttp "GET /courses/ HTTP/1.1" 200 42021
+INFO 2025-08-25 10:45:19,681 basehttp "GET /courses/BA/ HTTP/1.1" 200 33730
+INFO 2025-08-25 10:45:25,670 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:45:25,677 basehttp "GET / HTTP/1.1" 200 20988
+INFO 2025-08-25 10:53:05,277 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 10:53:17,829 basehttp "GET / HTTP/1.1" 200 20988
+INFO 2025-08-25 10:53:25,042 basehttp "GET / HTTP/1.1" 200 20988
+INFO 2025-08-25 10:53:25,911 basehttp "GET /courses/ HTTP/1.1" 200 41403
+INFO 2025-08-25 10:53:26,638 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:53:26,651 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11032
+INFO 2025-08-25 10:53:27,922 basehttp "GET /courses/ HTTP/1.1" 200 41403
+INFO 2025-08-25 10:53:30,057 basehttp "GET /courses/BA/ HTTP/1.1" 200 32696
+INFO 2025-08-25 10:53:35,172 basehttp "GET /accounts/login/ HTTP/1.1" 200 11032
+INFO 2025-08-25 10:53:56,511 basehttp "POST /accounts/login/ HTTP/1.1" 200 11289
+INFO 2025-08-25 10:54:44,522 basehttp "POST /accounts/login/ HTTP/1.1" 200 11289
+INFO 2025-08-25 10:54:54,854 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:54:54,867 basehttp "GET / HTTP/1.1" 200 21295
+INFO 2025-08-25 10:54:57,339 basehttp "GET /courses/ HTTP/1.1" 200 44483
+INFO 2025-08-25 10:55:00,397 basehttp "GET /profile/ HTTP/1.1" 200 42572
+INFO 2025-08-25 10:55:07,226 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module BUS201
+INFO 2025-08-25 10:55:07,228 views [REGISTER_MODULE] Found module: BUS201 - Financial Accounting
+ERROR 2025-08-25 10:55:07,229 views [REGISTER_MODULE] Unexpected error in register_module: 'Student' object has no attribute 'id'
+ERROR 2025-08-25 10:55:07,229 views Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 254, in register_module
+    logger.info(f"[REGISTER_MODULE] Found student profile: {student.id} - {student.user.username}")
+                                                            ^^^^^^^^^^
+AttributeError: 'Student' object has no attribute 'id'
+INFO 2025-08-25 10:55:07,238 basehttp "POST /modules/BUS201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:55:07,261 basehttp "GET /modules/ HTTP/1.1" 200 48011
+INFO 2025-08-25 10:55:11,277 basehttp "GET /my-registrations/ HTTP/1.1" 200 8741
+INFO 2025-08-25 10:55:13,683 basehttp "GET /courses/ HTTP/1.1" 200 44483
+INFO 2025-08-25 10:55:14,218 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 10:55:15,620 basehttp "GET / HTTP/1.1" 200 21295
+INFO 2025-08-25 10:55:19,615 basehttp "GET /about/ HTTP/1.1" 200 16719
+INFO 2025-08-25 10:55:20,271 basehttp "GET /contact/ HTTP/1.1" 200 20512
+INFO 2025-08-25 10:55:21,380 basehttp "GET /courses/ HTTP/1.1" 200 44483
+INFO 2025-08-25 10:55:24,841 basehttp "GET /courses/BA/enroll/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:55:24,862 basehttp "GET /profile/ HTTP/1.1" 200 42974
+INFO 2025-08-25 10:55:45,212 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 10:55:51,224 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 10:55:53,158 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 10:55:53,160 views [REGISTER_MODULE] Found module: ART201 - Web Design
+ERROR 2025-08-25 10:55:53,161 views [REGISTER_MODULE] Unexpected error in register_module: 'Student' object has no attribute 'id'
+ERROR 2025-08-25 10:55:53,161 views Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 254, in register_module
+    logger.info(f"[REGISTER_MODULE] Found student profile: {student.id} - {student.user.username}")
+                                                            ^^^^^^^^^^
+AttributeError: 'Student' object has no attribute 'id'
+INFO 2025-08-25 10:55:53,169 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:55:53,189 basehttp "GET /modules/ HTTP/1.1" 200 48011
+INFO 2025-08-25 10:56:54,930 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 10:56:55,534 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 10:57:30,526 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 10:57:36,109 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 10:57:37,830 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART101
+INFO 2025-08-25 10:57:37,832 views [REGISTER_MODULE] Found module: ART101 - Digital Art Fundamentals
+ERROR 2025-08-25 10:57:37,834 views [REGISTER_MODULE] Unexpected error in register_module: 'Student' object has no attribute 'id'
+ERROR 2025-08-25 10:57:37,835 views Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 266, in register_module
+    logger.info(f"[REGISTER_MODULE] Found student profile: {student.id} - {student.user.username}")
+                                                            ^^^^^^^^^^
+AttributeError: 'Student' object has no attribute 'id'
+INFO 2025-08-25 10:57:37,845 basehttp "POST /modules/ART101/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:57:37,868 basehttp "GET /modules/ HTTP/1.1" 200 48011
+INFO 2025-08-25 10:57:42,344 basehttp "GET /my-registrations/ HTTP/1.1" 200 8741
+INFO 2025-08-25 10:57:43,785 basehttp "GET / HTTP/1.1" 200 21295
+INFO 2025-08-25 10:57:45,515 basehttp "GET /profile/ HTTP/1.1" 200 42572
+INFO 2025-08-25 10:57:48,078 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 10:57:56,360 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 10:57:58,228 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 10:57:58,229 views [REGISTER_MODULE] Found module: ART201 - Web Design
+ERROR 2025-08-25 10:57:58,230 views [REGISTER_MODULE] Unexpected error in register_module: 'Student' object has no attribute 'id'
+ERROR 2025-08-25 10:57:58,230 views Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 266, in register_module
+    logger.info(f"[REGISTER_MODULE] Found student profile: {student.id} - {student.user.username}")
+                                                            ^^^^^^^^^^
+AttributeError: 'Student' object has no attribute 'id'
+INFO 2025-08-25 10:57:58,238 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:57:58,257 basehttp "GET /modules/ HTTP/1.1" 200 48011
+INFO 2025-08-25 10:58:25,003 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 10:58:26,170 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 10:58:26,171 views [REGISTER_MODULE] Found module: ART201 - Web Design
+ERROR 2025-08-25 10:58:26,172 views [REGISTER_MODULE] Unexpected error in register_module: 'Student' object has no attribute 'id'
+ERROR 2025-08-25 10:58:26,172 views Full traceback:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 266, in register_module
+    logger.info(f"[REGISTER_MODULE] Found student profile: {student.id} - {student.user.username}")
+                                                            ^^^^^^^^^^
+AttributeError: 'Student' object has no attribute 'id'
+INFO 2025-08-25 10:58:26,180 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 10:58:26,201 basehttp "GET /modules/ HTTP/1.1" 200 48011
+INFO 2025-08-25 10:59:01,064 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 10:59:01,710 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 10:59:10,774 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 10:59:11,750 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 10:59:51,427 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 10:59:51,993 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:00:13,660 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:00:14,276 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:00:37,993 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:00:38,568 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:00:58,143 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:00:58,961 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:01:29,336 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:03:42,329 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:03:46,177 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:03:52,745 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:03:56,678 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 11:03:58,198 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:03:58,199 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:03:58,200 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:03:58,201 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:03:58,201 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:03:58,203 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:03:58,205 views [REGISTER_MODULE] Module ART201 is available for courses: []
+WARNING 2025-08-25 11:03:58,206 views [REGISTER_MODULE] Module ART201 not available for student's course Bachelor of Arts (ID: 5)
+INFO 2025-08-25 11:03:58,215 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:03:58,243 basehttp "GET /modules/ HTTP/1.1" 200 48071
+INFO 2025-08-25 11:04:12,726 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 11:04:23,559 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:04:23,560 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:04:23,562 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:04:23,562 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:04:23,563 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:04:23,564 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:04:23,565 views [REGISTER_MODULE] Module ART201 is available for courses: []
+WARNING 2025-08-25 11:04:23,565 views [REGISTER_MODULE] Module ART201 not available for student's course Bachelor of Arts (ID: 5)
+INFO 2025-08-25 11:04:23,572 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:04:23,594 basehttp "GET /modules/ HTTP/1.1" 200 48071
+INFO 2025-08-25 11:05:42,889 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:05:43,698 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:06:04,445 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:06:05,082 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:06:20,445 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:06:21,128 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:06:42,744 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:06:45,536 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:06:45,550 basehttp "GET / HTTP/1.1" 200 20988
+INFO 2025-08-25 11:06:46,963 basehttp "GET /accounts/login/ HTTP/1.1" 200 11032
+INFO 2025-08-25 11:06:58,292 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:06:58,305 basehttp "GET / HTTP/1.1" 200 21295
+INFO 2025-08-25 11:06:59,886 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:07:02,731 basehttp "GET /my-registrations/ HTTP/1.1" 200 8741
+INFO 2025-08-25 11:07:04,141 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:07:06,471 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 11:07:07,917 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:07:07,918 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:07:07,919 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:07:07,920 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:07:07,920 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:07:07,921 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:07:07,922 views [REGISTER_MODULE] Module ART201 is available for courses: []
+WARNING 2025-08-25 11:07:07,922 views [REGISTER_MODULE] Module ART201 not available for student's course Bachelor of Arts (ID: 5)
+INFO 2025-08-25 11:07:07,931 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:07:07,963 basehttp "GET /modules/ HTTP/1.1" 200 48071
+INFO 2025-08-25 11:30:23,844 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:30:31,662 basehttp "GET / HTTP/1.1" 200 21295
+INFO 2025-08-25 11:30:36,413 basehttp "GET /courses/ HTTP/1.1" 200 44483
+INFO 2025-08-25 11:30:39,542 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:30:42,319 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 11:30:43,725 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:30:43,727 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:30:43,730 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:30:43,732 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:30:43,733 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:30:43,735 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:30:43,737 views [REGISTER_MODULE] Module ART201 is available for courses: []
+INFO 2025-08-25 11:30:43,737 views [REGISTER_MODULE] Attempting to create registration for student somrup7 and module ART201
+INFO 2025-08-25 11:30:43,737 views [REGISTER_MODULE] Validating registration data...
+ERROR 2025-08-25 11:30:43,742 views [REGISTER_MODULE] Database integrity error: FOREIGN KEY constraint failed
+ERROR 2025-08-25 11:30:43,742 views Database error details:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 368, in register_module
+    registration.save(force_insert=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1894, in execute_sql
+    self.connection.ops.fetch_returned_insert_columns(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+        self.returning_params,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\base\operations.py", line 215, in fetch_returned_insert_columns
+    return cursor.fetchone()
+           ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 97, in inner
+    with self:
+         ^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+django.db.utils.IntegrityError: FOREIGN KEY constraint failed
+INFO 2025-08-25 11:30:43,767 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:30:43,801 basehttp "GET /modules/ HTTP/1.1" 200 48062
+INFO 2025-08-25 11:30:47,936 basehttp "GET /my-registrations/ HTTP/1.1" 200 8741
+INFO 2025-08-25 11:30:49,530 basehttp "GET /courses/ HTTP/1.1" 200 44483
+INFO 2025-08-25 11:30:50,989 basehttp "GET /profile/ HTTP/1.1" 200 42572
+INFO 2025-08-25 11:30:56,763 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART101
+INFO 2025-08-25 11:30:56,764 views [REGISTER_MODULE] Found module: ART101 - Digital Art Fundamentals
+INFO 2025-08-25 11:30:56,766 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:30:56,767 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:30:56,767 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:30:56,769 views [REGISTER_MODULE] Current registrations for ART101: 1/30
+INFO 2025-08-25 11:30:56,770 views [REGISTER_MODULE] Module ART101 is available for courses: []
+INFO 2025-08-25 11:30:56,771 views [REGISTER_MODULE] Attempting to create registration for student somrup7 and module ART101
+INFO 2025-08-25 11:30:56,771 views [REGISTER_MODULE] Validating registration data...
+ERROR 2025-08-25 11:30:56,776 views [REGISTER_MODULE] Database integrity error: FOREIGN KEY constraint failed
+ERROR 2025-08-25 11:30:56,776 views Database error details:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 368, in register_module
+    registration.save(force_insert=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1894, in execute_sql
+    self.connection.ops.fetch_returned_insert_columns(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+        self.returning_params,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\base\operations.py", line 215, in fetch_returned_insert_columns
+    return cursor.fetchone()
+           ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 97, in inner
+    with self:
+         ^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+django.db.utils.IntegrityError: FOREIGN KEY constraint failed
+INFO 2025-08-25 11:30:56,792 basehttp "POST /modules/ART101/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:30:56,816 basehttp "GET /modules/ HTTP/1.1" 200 48062
+INFO 2025-08-25 11:32:08,931 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:32:09,538 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:32:19,688 autoreload C:\Users\Somrup\Downloads\raman\src\registration\models.py changed, reloading.
+INFO 2025-08-25 11:32:20,231 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:32:29,237 autoreload C:\Users\Somrup\Downloads\raman\src\registration\models.py changed, reloading.
+INFO 2025-08-25 11:32:29,795 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:32:40,948 autoreload C:\Users\Somrup\Downloads\raman\src\registration\models.py changed, reloading.
+INFO 2025-08-25 11:32:41,496 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:33:04,694 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:33:08,821 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:33:08,822 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:33:08,823 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:33:08,824 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:33:08,825 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:33:08,829 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:33:08,830 views [REGISTER_MODULE] Module ART201 is available for courses: []
+INFO 2025-08-25 11:33:08,830 views [REGISTER_MODULE] Attempting to create registration for student somrup7 and module ART201
+INFO 2025-08-25 11:33:08,830 views [REGISTER_MODULE] Validating registration data...
+ERROR 2025-08-25 11:33:08,834 views [REGISTER_MODULE] Database integrity error: FOREIGN KEY constraint failed
+ERROR 2025-08-25 11:33:08,834 views Database error details:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 375, in register_module
+    registration.save(force_insert=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1894, in execute_sql
+    self.connection.ops.fetch_returned_insert_columns(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+        self.returning_params,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\base\operations.py", line 215, in fetch_returned_insert_columns
+    return cursor.fetchone()
+           ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 97, in inner
+    with self:
+         ^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+django.db.utils.IntegrityError: FOREIGN KEY constraint failed
+INFO 2025-08-25 11:33:08,850 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:33:08,874 basehttp "GET /modules/ HTTP/1.1" 200 48062
+INFO 2025-08-25 11:36:39,961 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:36:40,496 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:36:43,128 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:36:43,720 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:36:49,539 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:36:50,061 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:36:51,667 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:36:52,302 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:37:00,261 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:37:00,798 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:37:45,087 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:37:48,828 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19547
+INFO 2025-08-25 11:37:50,086 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:37:50,088 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:37:50,089 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:37:50,090 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:37:50,090 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:37:50,092 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:37:50,093 views [REGISTER_MODULE] Module ART201 is available for courses: []
+INFO 2025-08-25 11:37:50,093 views [REGISTER_MODULE] Attempting to create registration for student somrup7 and module ART201
+INFO 2025-08-25 11:37:50,093 views [REGISTER_MODULE] Validating registration data...
+ERROR 2025-08-25 11:37:50,097 views [REGISTER_MODULE] Database integrity error: FOREIGN KEY constraint failed
+ERROR 2025-08-25 11:37:50,098 views Database error details:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 353, in register_module
+    registration.save(force_insert=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1894, in execute_sql
+    self.connection.ops.fetch_returned_insert_columns(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+        self.returning_params,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\base\operations.py", line 215, in fetch_returned_insert_columns
+    return cursor.fetchone()
+           ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 97, in inner
+    with self:
+         ^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+django.db.utils.IntegrityError: FOREIGN KEY constraint failed
+INFO 2025-08-25 11:37:50,117 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:37:50,146 basehttp "GET /modules/ HTTP/1.1" 200 48062
+INFO 2025-08-25 11:39:26,459 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:39:26,461 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:39:26,463 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:39:26,465 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:39:26,465 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:39:26,469 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:39:26,472 views [REGISTER_MODULE] Module ART201 is available for courses: []
+INFO 2025-08-25 11:39:26,473 views [REGISTER_MODULE] Attempting to create registration for student somrup7 and module ART201
+INFO 2025-08-25 11:39:26,474 views [REGISTER_MODULE] Validating registration data...
+ERROR 2025-08-25 11:39:26,480 views [REGISTER_MODULE] Database integrity error: FOREIGN KEY constraint failed
+ERROR 2025-08-25 11:39:26,481 views Database error details:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 353, in register_module
+    registration.save(force_insert=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1894, in execute_sql
+    self.connection.ops.fetch_returned_insert_columns(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+        self.returning_params,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\base\operations.py", line 215, in fetch_returned_insert_columns
+    return cursor.fetchone()
+           ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 97, in inner
+    with self:
+         ^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+django.db.utils.IntegrityError: FOREIGN KEY constraint failed
+INFO 2025-08-25 11:39:26,500 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:39:26,545 basehttp "GET /modules/ HTTP/1.1" 200 48062
+INFO 2025-08-25 11:47:41,453 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:47:45,392 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:47:48,839 basehttp "GET /my-registrations/ HTTP/1.1" 200 8741
+INFO 2025-08-25 11:47:50,425 basehttp "GET /modules/ HTTP/1.1" 200 47648
+INFO 2025-08-25 11:47:53,160 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:47:53,162 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:47:53,163 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:47:53,163 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:47:53,164 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:47:53,166 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:47:53,167 views [REGISTER_MODULE] Module ART201 is available for courses: []
+INFO 2025-08-25 11:47:53,168 views [REGISTER_MODULE] Attempting to create registration for student somrup7 and module ART201
+INFO 2025-08-25 11:47:53,168 views [REGISTER_MODULE] Validating registration data...
+ERROR 2025-08-25 11:47:53,171 views [REGISTER_MODULE] Database integrity error: FOREIGN KEY constraint failed
+ERROR 2025-08-25 11:47:53,172 views Database error details:
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Somrup\Downloads\raman\src\registration\views.py", line 362, in register_module
+    registration.save(force_insert=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1894, in execute_sql
+    self.connection.ops.fetch_returned_insert_columns(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+        self.returning_params,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\backends\base\operations.py", line 215, in fetch_returned_insert_columns
+    return cursor.fetchone()
+           ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 97, in inner
+    with self:
+         ^^^^
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Somrup\Downloads\raman\venv\Lib\site-packages\django\db\utils.py", line 98, in inner
+    return func(*args, **kwargs)
+django.db.utils.IntegrityError: FOREIGN KEY constraint failed
+INFO 2025-08-25 11:47:53,188 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:47:53,213 basehttp "GET /modules/ HTTP/1.1" 200 48062
+WARNING 2025-08-25 11:47:58,692 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-08-25 11:47:58,694 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 10218
+INFO 2025-08-25 11:48:25,918 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:48:26,497 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:48:28,168 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:48:28,722 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:48:34,560 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 11:48:35,314 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:48:43,323 autoreload C:\Users\Somrup\Downloads\raman\src\registration\models.py changed, reloading.
+INFO 2025-08-25 11:48:43,848 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:48:45,482 autoreload C:\Users\Somrup\Downloads\raman\src\registration\models.py changed, reloading.
+INFO 2025-08-25 11:48:46,011 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:51:11,519 autoreload C:\Users\Somrup\Downloads\raman\src\registration\models.py changed, reloading.
+INFO 2025-08-25 11:51:12,041 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:53:00,484 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 11:53:06,919 basehttp "GET /modules/ HTTP/1.1" 200 47698
+INFO 2025-08-25 11:53:10,145 basehttp "GET /my-registrations/ HTTP/1.1" 200 12911
+INFO 2025-08-25 11:53:12,526 basehttp "GET / HTTP/1.1" 200 21295
+INFO 2025-08-25 11:53:13,900 basehttp "GET /profile/ HTTP/1.1" 200 45455
+INFO 2025-08-25 11:53:22,618 basehttp "GET /contact/ HTTP/1.1" 200 20512
+INFO 2025-08-25 11:53:23,680 basehttp "GET /about/ HTTP/1.1" 200 16719
+INFO 2025-08-25 11:53:24,138 basehttp "GET /modules/ HTTP/1.1" 200 47698
+INFO 2025-08-25 11:53:27,236 basehttp "GET /modules/?search=&category=ART HTTP/1.1" 200 19597
+INFO 2025-08-25 11:53:29,124 views [REGISTER_MODULE] Starting registration for user Somrup Roy and module ART201
+INFO 2025-08-25 11:53:29,126 views [REGISTER_MODULE] Found module: ART201 - Web Design
+INFO 2025-08-25 11:53:29,127 views [REGISTER_MODULE] Found student profile - User: somrup7
+INFO 2025-08-25 11:53:29,128 views [REGISTER_MODULE] Student course: BA - Bachelor of Arts
+INFO 2025-08-25 11:53:29,128 views [REGISTER_MODULE] Student object: Somrup Roy (a32ea167-8ce4-4243-b0ee-a8c3865d0a5e)
+INFO 2025-08-25 11:53:29,131 views [REGISTER_MODULE] Current registrations for ART201: 0/40
+INFO 2025-08-25 11:53:29,132 views [REGISTER_MODULE] Module ART201 is available for courses: []
+INFO 2025-08-25 11:53:29,132 views [REGISTER_MODULE] Attempting to create registration for student somrup7 and module ART201
+INFO 2025-08-25 11:53:29,132 views [REGISTER_MODULE] Validating registration data...
+INFO 2025-08-25 11:53:29,139 views [REGISTER_MODULE] Successfully created registration for student somrup7 and module ART201
+INFO 2025-08-25 11:53:29,141 views [REGISTER_MODULE] Updated registration count for ART201: 1/40
+INFO 2025-08-25 11:53:29,147 basehttp "POST /modules/ART201/register/ HTTP/1.1" 302 0
+INFO 2025-08-25 11:53:29,173 basehttp "GET /modules/ HTTP/1.1" 200 48085
+INFO 2025-08-25 11:53:32,838 basehttp "GET /profile/ HTTP/1.1" 200 46863
+INFO 2025-08-25 12:01:06,355 basehttp "POST /profile/ HTTP/1.1" 200 23744
+INFO 2025-08-25 12:01:25,381 basehttp "POST /profile/ HTTP/1.1" 200 23744
+INFO 2025-08-25 12:01:28,253 basehttp "GET /courses/ HTTP/1.1" 200 44483
+INFO 2025-08-25 12:01:30,653 basehttp "GET /courses/BA/enroll/ HTTP/1.1" 302 0
+INFO 2025-08-25 12:01:30,673 basehttp "GET /profile/ HTTP/1.1" 200 47265
+INFO 2025-08-25 12:02:48,491 autoreload C:\Users\Somrup\Downloads\raman\src\registration\forms.py changed, reloading.
+INFO 2025-08-25 12:02:48,871 autoreload C:\Users\Somrup\Downloads\raman\src\registration\forms.py changed, reloading.
+INFO 2025-08-25 12:02:49,059 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:02:49,421 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:03:07,912 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 12:03:08,493 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:03:08,649 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 12:03:09,189 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:03:18,600 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 12:03:19,174 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:03:19,235 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 12:03:19,783 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:03:21,358 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 12:03:21,843 autoreload C:\Users\Somrup\Downloads\raman\src\registration\views.py changed, reloading.
+INFO 2025-08-25 12:03:21,960 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:03:22,467 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:05:58,328 basehttp "GET /profile/ HTTP/1.1" 200 52189
+INFO 2025-08-25 12:06:18,157 basehttp "POST /profile/ HTTP/1.1" 302 0
+INFO 2025-08-25 12:06:18,183 basehttp "GET /profile/ HTTP/1.1" 200 52663
+INFO 2025-08-25 12:08:18,358 basehttp "GET /admin/registration/course/ HTTP/1.1" 200 23627
+INFO 2025-08-25 12:08:18,452 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,454 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,463 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,464 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,464 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,465 basehttp "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,472 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,475 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,476 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,476 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,483 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,483 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,484 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,484 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,485 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,496 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:08:18,522 basehttp "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,528 basehttp "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,533 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,541 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,568 basehttp "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,568 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,571 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:18,571 basehttp "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+WARNING 2025-08-25 12:08:18,668 log Not Found: /favicon.ico
+WARNING 2025-08-25 12:08:18,669 basehttp "GET /favicon.ico HTTP/1.1" 404 10107
+INFO 2025-08-25 12:08:25,564 basehttp "GET /admin/registration/user/ HTTP/1.1" 200 17973
+INFO 2025-08-25 12:08:25,601 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:25,601 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:25,609 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:08:32,620 basehttp "GET /admin/registration/pagecontent/ HTTP/1.1" 200 16443
+INFO 2025-08-25 12:08:32,659 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:08:33,815 basehttp "GET /admin/registration/module/ HTTP/1.1" 200 29599
+INFO 2025-08-25 12:08:33,854 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:08:37,702 basehttp "GET /admin/registration/module/13/change/ HTTP/1.1" 200 19834
+INFO 2025-08-25 12:08:37,738 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:37,744 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:08:37,815 basehttp "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 200 15845
+INFO 2025-08-25 12:08:37,815 basehttp "GET /static/admin/js/SelectBox.js HTTP/1.1" 200 4530
+INFO 2025-08-25 12:08:37,822 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:37,855 basehttp "GET /static/admin/img/selector-icons.svg HTTP/1.1" 200 3291
+INFO 2025-08-25 12:08:42,037 basehttp "GET /admin/registration/student/ HTTP/1.1" 200 18345
+INFO 2025-08-25 12:08:42,090 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:08:44,533 basehttp "GET /admin/registration/student/1/change/ HTTP/1.1" 200 29040
+INFO 2025-08-25 12:08:44,572 basehttp "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2025-08-25 12:08:44,573 basehttp "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2025-08-25 12:08:44,578 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+INFO 2025-08-25 12:08:44,579 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:08:44,585 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2025-08-25 12:08:44,627 basehttp "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+INFO 2025-08-25 12:09:01,663 basehttp "GET /admin/registration/user/2/change/?_to_field=id&_popup=1 HTTP/1.1" 200 22771
+INFO 2025-08-25 12:09:01,722 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:09:03,044 basehttp "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+INFO 2025-08-25 12:09:10,209 basehttp "POST /admin/registration/user/2/change/?_to_field=id&_popup=1 HTTP/1.1" 200 408
+INFO 2025-08-25 12:09:10,241 basehttp "GET /static/admin/js/popup_response.js HTTP/1.1" 200 532
+INFO 2025-08-25 12:09:19,374 basehttp "GET /profile/ HTTP/1.1" 200 52313
+INFO 2025-08-25 12:10:37,809 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:10:38,320 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:10:38,371 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:10:38,973 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:11:16,003 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:11:16,488 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:11:16,746 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:11:17,032 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:11:32,146 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:11:32,385 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:11:32,701 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:11:32,929 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:11:46,228 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:11:46,941 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:11:47,018 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:11:47,562 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:11:53,849 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:11:54,453 autoreload C:\Users\Somrup\Downloads\raman\src\registration\admin.py changed, reloading.
+INFO 2025-08-25 12:11:54,479 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:11:55,006 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:12:03,996 autoreload C:\Users\Somrup\Downloads\raman\src\config\urls.py changed, reloading.
+INFO 2025-08-25 12:12:04,516 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:12:04,584 autoreload C:\Users\Somrup\Downloads\raman\src\config\urls.py changed, reloading.
+INFO 2025-08-25 12:12:05,126 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:12:16,743 autoreload C:\Users\Somrup\Downloads\raman\src\config\urls.py changed, reloading.
+INFO 2025-08-25 12:12:17,294 autoreload C:\Users\Somrup\Downloads\raman\src\config\urls.py changed, reloading.
+INFO 2025-08-25 12:12:17,370 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:12:17,850 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 12:12:51,251 basehttp "GET /admin/registration/user/ HTTP/1.1" 200 17973
+INFO 2025-08-25 12:12:51,307 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:12:53,371 basehttp "GET /admin/registration/user/2/change/ HTTP/1.1" 200 29998
+INFO 2025-08-25 12:12:53,419 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-08-25 12:13:04,649 basehttp "POST /accounts/logout/ HTTP/1.1" 302 0
+INFO 2025-08-25 12:13:04,677 basehttp "GET / HTTP/1.1" 200 20988
+INFO 2025-08-25 12:13:06,244 basehttp "GET /accounts/login/ HTTP/1.1" 200 11032
+INFO 2025-08-25 12:13:16,159 basehttp "POST /accounts/login/ HTTP/1.1" 200 11289
+INFO 2025-08-25 12:13:22,814 basehttp "POST /accounts/login/ HTTP/1.1" 302 0
+INFO 2025-08-25 12:13:22,827 basehttp "GET / HTTP/1.1" 200 21295
+INFO 2025-08-25 20:02:14,378 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 20:02:36,637 basehttp "GET / HTTP/1.1" 200 21031
+WARNING 2025-08-25 20:02:38,287 log Not Found: /favicon.ico
+WARNING 2025-08-25 20:02:38,287 basehttp "GET /favicon.ico HTTP/1.1" 404 10107
+INFO 2025-08-25 20:10:05,819 basehttp "GET / HTTP/1.1" 200 21050
+INFO 2025-08-25 20:10:05,957 basehttp "GET /static/css/site.css HTTP/1.1" 200 1737
+INFO 2025-08-25 20:10:19,918 basehttp "GET / HTTP/1.1" 200 21050
+INFO 2025-08-25 20:10:21,094 basehttp "GET /courses/ HTTP/1.1" 200 41431
+INFO 2025-08-25 20:10:21,788 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 20:10:21,810 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11158
+INFO 2025-08-25 20:10:23,098 basehttp "GET /courses/ HTTP/1.1" 200 41431
+INFO 2025-08-25 20:10:23,142 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:10:24,361 basehttp "GET / HTTP/1.1" 200 21050
+INFO 2025-08-25 20:11:42,791 basehttp "GET / HTTP/1.1" 200 21707
+INFO 2025-08-25 20:11:42,918 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:12:34,451 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 20:12:34,460 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11158
+INFO 2025-08-25 20:12:34,532 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:12:35,547 basehttp "GET /courses/ HTTP/1.1" 200 41431
+INFO 2025-08-25 20:12:37,528 basehttp "GET / HTTP/1.1" 200 21707
+INFO 2025-08-25 20:13:15,569 basehttp "GET / HTTP/1.1" 200 21725
+INFO 2025-08-25 20:13:15,693 basehttp "GET /static/css/site.css HTTP/1.1" 200 2466
+INFO 2025-08-25 20:13:21,502 basehttp "GET /courses/ HTTP/1.1" 200 41449
+INFO 2025-08-25 20:13:21,541 basehttp "GET /static/css/site.css HTTP/1.1" 200 2466
+INFO 2025-08-25 20:13:22,219 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 20:13:22,231 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11176
+INFO 2025-08-25 20:13:22,263 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:13:22,851 basehttp "GET /about/ HTTP/1.1" 200 16247
+INFO 2025-08-25 20:13:22,882 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:13:23,555 basehttp "GET /contact/ HTTP/1.1" 200 20040
+INFO 2025-08-25 20:13:23,634 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:13:25,234 basehttp "GET / HTTP/1.1" 200 21725
+INFO 2025-08-25 20:13:25,295 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:13:46,772 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 20:13:46,788 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11176
+INFO 2025-08-25 20:13:46,824 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:13:49,091 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 20:13:49,096 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11176
+INFO 2025-08-25 20:13:49,116 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:13:51,189 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 20:13:51,198 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11176
+INFO 2025-08-25 20:13:51,975 basehttp "GET /courses/ HTTP/1.1" 200 41449
+INFO 2025-08-25 20:13:52,003 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:13:52,663 basehttp "GET /contact/ HTTP/1.1" 200 20040
+INFO 2025-08-25 20:13:53,227 basehttp "GET /about/ HTTP/1.1" 200 16247
+INFO 2025-08-25 20:13:56,703 basehttp "GET / HTTP/1.1" 200 21725
+INFO 2025-08-25 20:13:56,765 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:15:57,917 basehttp "GET / HTTP/1.1" 200 21725
+INFO 2025-08-25 20:15:57,962 basehttp "GET /static/css/site.css HTTP/1.1" 200 2908
+INFO 2025-08-25 20:16:05,709 basehttp "GET /courses/ HTTP/1.1" 200 41446
+INFO 2025-08-25 20:16:05,785 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:16:06,436 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 20:16:06,471 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11173
+INFO 2025-08-25 20:16:07,364 basehttp "GET /about/ HTTP/1.1" 200 16286
+INFO 2025-08-25 20:16:08,181 basehttp "GET /contact/ HTTP/1.1" 200 20037
+INFO 2025-08-25 20:16:11,393 basehttp "GET / HTTP/1.1" 200 21725
+INFO 2025-08-25 20:16:12,073 basehttp "GET /courses/ HTTP/1.1" 200 41446
+INFO 2025-08-25 20:16:13,017 basehttp "GET / HTTP/1.1" 200 21725
+INFO 2025-08-25 20:16:13,069 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:16:15,537 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-08-25 20:16:15,550 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11173
+INFO 2025-08-25 20:16:16,036 basehttp "GET /courses/ HTTP/1.1" 200 41446
+INFO 2025-08-25 20:16:16,659 basehttp "GET /about/ HTTP/1.1" 200 16286
+INFO 2025-08-25 20:16:17,035 basehttp "GET /contact/ HTTP/1.1" 200 20037
+INFO 2025-08-25 20:16:18,357 basehttp "GET / HTTP/1.1" 200 21725
+INFO 2025-08-25 20:16:35,326 basehttp "GET /accounts/login/ HTTP/1.1" 200 11173
+INFO 2025-08-25 20:16:35,353 basehttp "GET /static/css/site.css HTTP/1.1" 200 2908
+INFO 2025-08-25 20:23:49,147 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 20:23:53,152 basehttp "GET /accounts/login/ HTTP/1.1" 200 11173
+INFO 2025-08-25 20:23:53,244 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:23:57,488 basehttp "GET /register/ HTTP/1.1" 200 18008
+INFO 2025-08-25 20:40:23,131 autoreload Watching for file changes with StatReloader
+INFO 2025-08-25 20:40:28,152 basehttp "GET / HTTP/1.1" 200 21725
+INFO 2025-08-25 20:40:28,524 basehttp "GET /static/css/site.css HTTP/1.1" 200 2908
+INFO 2025-08-25 20:43:49,336 basehttp "GET / HTTP/1.1" 200 25030
+INFO 2025-08-25 20:43:49,432 basehttp "GET /static/css/site.css HTTP/1.1" 304 0
+INFO 2025-08-25 20:46:06,068 basehttp "GET / HTTP/1.1" 200 25049
+INFO 2025-09-13 20:38:12,331 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:38:38,679 basehttp "GET / HTTP/1.1" 200 25048
+INFO 2025-09-13 20:38:38,820 basehttp "GET /static/css/site.css HTTP/1.1" 200 2908
+WARNING 2025-09-13 20:38:40,517 log Not Found: /favicon.ico
+WARNING 2025-09-13 20:38:40,518 basehttp "GET /favicon.ico HTTP/1.1" 404 10107
+INFO 2025-09-13 20:38:46,656 basehttp "GET /courses/ HTTP/1.1" 200 41446
+INFO 2025-09-13 20:39:37,768 basehttp "GET /courses/ HTTP/1.1" 200 41446
+INFO 2025-09-13 20:39:54,170 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:41:47,339 autoreload C:\Users\Somrup\Downloads\sushmita\src\config\settings.py changed, reloading.
+INFO 2025-09-13 20:41:48,386 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:42:30,661 autoreload C:\Users\Somrup\Downloads\sushmita\src\registration\apps.py changed, reloading.
+INFO 2025-09-13 20:42:31,193 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:46:02,704 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:47:25,077 autoreload C:\Users\Somrup\Downloads\sushmita\src\config\settings.py changed, reloading.
+INFO 2025-09-13 20:47:26,352 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:47:37,934 autoreload C:\Users\Somrup\Downloads\sushmita\src\config\settings.py changed, reloading.
+INFO 2025-09-13 20:47:38,773 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:47:47,074 autoreload C:\Users\Somrup\Downloads\sushmita\src\registration\apps.py changed, reloading.
+INFO 2025-09-13 20:47:47,739 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:47:59,248 autoreload C:\Users\Somrup\Downloads\sushmita\src\registration\apps.py changed, reloading.
+INFO 2025-09-13 20:47:59,938 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:48:09,512 autoreload C:\Users\Somrup\Downloads\sushmita\src\registration\apps.py changed, reloading.
+INFO 2025-09-13 20:48:10,505 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:48:22,220 autoreload C:\Users\Somrup\Downloads\sushmita\src\registration\apps.py changed, reloading.
+INFO 2025-09-13 20:48:23,032 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:49:27,406 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:56:34,222 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 20:56:46,865 basehttp "GET / HTTP/1.1" 200 25097
+INFO 2025-09-13 20:56:48,694 basehttp "GET /courses/ HTTP/1.1" 200 41544
+INFO 2025-09-13 20:56:50,161 basehttp "GET /modules/ HTTP/1.1" 302 0
+INFO 2025-09-13 20:56:50,620 basehttp "GET /accounts/login/?next=/modules/ HTTP/1.1" 200 11172
+INFO 2025-09-13 20:56:51,482 basehttp "GET /about/ HTTP/1.1" 200 16285
+INFO 2025-09-13 20:56:57,714 basehttp "GET / HTTP/1.1" 200 25097
+INFO 2025-09-13 21:00:10,784 autoreload Watching for file changes with StatReloader
+INFO 2025-09-13 21:00:22,319 basehttp "GET / HTTP/1.1" 200 25097

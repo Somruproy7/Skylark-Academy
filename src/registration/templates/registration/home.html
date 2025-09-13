@@ -1,0 +1,285 @@
+{% extends 'registration/base.html' %}
+
+{% block title %}Home - Skylark Academy{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Completely new home layout styles */
+    .hero-split {
+        background: radial-gradient(1200px 600px at 10% -10%, rgba(219,39,119,.18), transparent),
+                    radial-gradient(900px 500px at 110% 20%, rgba(37,99,235,.18), transparent);
+        padding: 72px 0 40px;
+    }
+
+    .hero-badge {
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #fff;
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
+    .stat-tile {
+        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+    }
+
+    .steps .step {
+        position: relative;
+        padding-left: 52px;
+    }
+    .steps .num {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #db2777, #2563eb);
+        color: #fff;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-weight: 700;
+    }
+
+    .testimonial {
+        border-left: 4px solid #db2777;
+        background: #fff;
+    }
+
+    .cta-band {
+        background: linear-gradient(135deg, #2563eb, #db2777);
+        color: #fff;
+        border-radius: 16px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Split Hero -->
+<section class="hero-split">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-lg-6">
+                <span class="badge rounded-pill hero-badge mb-3 text-dark"><i class="fas fa-bolt me-2"></i>New: Faster, cleaner registration flow</span>
+                <h1 class="display-5 fw-bold mb-3 text-dark">Plan, register, and thrive — all in one place</h1>
+                <p class="lead mb-4 text-dark">Skylark brings courses, modules, and progress tracking together so you can focus on learning.</p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'modules' %}" class="btn btn-primary btn-lg"><i class="fas fa-compass me-2"></i>Explore Modules</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}" class="btn btn-outline-light btn-lg"><i class="fas fa-user me-2"></i>My Profile</a>
+                    {% else %}
+                        <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg"><i class="fas fa-user-plus me-2"></i>Create Account</a>
+                    {% endif %}
+                </div>
+                <div class="row mt-4 g-3">
+                    <div class="col-6 col-md-4">
+                        <div class="p-3 rounded stat-tile text-center">
+                            <div class="h4 mb-0">50+</div>
+                            <small>Modules</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="p-3 rounded stat-tile text-center">
+                            <div class="h4 mb-0">1k+</div>
+                            <small>Students</small>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 d-none d-md-block">
+                        <div class="p-3 rounded stat-tile text-center">
+                            <div class="h4 mb-0">24/7</div>
+                            <small>Access</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow border-0">
+                    <div class="card-body p-4">
+                        <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" class="img-fluid rounded" alt="Students collaborating">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Three Highlights -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="fw-bold mb-3 section-title">What makes Skylark different?</h2>
+                <p class="lead lead-muted">Simple flows, clear information, and helpful guidance every step of the way.</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3"><i class="fas fa-magnifying-glass-chart fa-3x text-primary"></i></div>
+                        <h5 class="card-title">Easy Module Discovery</h5>
+                        <p class="card-text">Browse through a comprehensive catalog of modules with detailed descriptions and requirements.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3"><i class="fas fa-bolt fa-3x text-success"></i></div>
+                        <h5 class="card-title">Real-time Registration</h5>
+                        <p class="card-text">Register and unregister from modules instantly with real-time availability updates.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <div class="mb-3"><i class="fas fa-chart-line fa-3x text-info"></i></div>
+                        <h5 class="card-title">Track Your Progress</h5>
+                        <p class="card-text">Monitor your registrations and academic progress through your personalized dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Steps -->
+<section class="py-4 bg-white">
+    <div class="container steps">
+        <div class="row g-4 align-items-center">
+            <div class="col-lg-6">
+                <h3 class="fw-bold mb-3">Get started in three simple steps</h3>
+                <div class="mb-3 step">
+                    <span class="num">1</span>
+                    <h6 class="fw-bold mb-1">Create your account</h6>
+                    <p class="text-muted mb-0">Register in minutes to unlock personalized recommendations.</p>
+                </div>
+                <div class="mb-3 step">
+                    <span class="num">2</span>
+                    <h6 class="fw-bold mb-1">Pick your modules</h6>
+                    <p class="text-muted mb-0">Search, filter, and compare modules across categories.</p>
+                </div>
+                <div class="mb-3 step">
+                    <span class="num">3</span>
+                    <h6 class="fw-bold mb-1">Track your progress</h6>
+                    <p class="text-muted mb-0">See credits and status at a glance in your dashboard.</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1200&auto=format&fit=crop" class="img-fluid rounded" alt="App preview">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Modules Section -->
+{% if featured_modules %}
+<section class="py-5 bg-white">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="fw-bold mb-3">Featured Modules</h2>
+                <p class="lead text-muted">Explore some of our most popular courses</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            {% for module in featured_modules %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card module-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title mb-0">{{ module.name }}</h5>
+                            <span class="badge bg-primary">{{ module.code }}</span>
+                        </div>
+                        <p class="card-text text-muted">{{ module.description|truncatewords:20 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-secondary">{{ module.get_category_display }}</span>
+                            <small class="text-muted">{{ module.credit }} credits</small>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'modules' %}" class="btn btn-primary btn-sm w-100">
+                                <i class="fas fa-info-circle me-1"></i>Learn More
+                            </a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm w-100">
+                                <i class="fas fa-sign-in-alt me-1"></i>Login to Register
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'modules' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-list me-2"></i>View All Modules
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Testimonials -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="p-4 rounded testimonial shadow-sm">
+                    <p class="mb-3">“Skylark made module selection painless. I registered in minutes and could track credits instantly.”</p>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-circle fa-2x text-secondary"></i>
+                        <div class="ms-3">
+                            <strong>Riya, CS Student</strong><br>
+                            <small class="text-muted">Year 2</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-4 rounded testimonial shadow-sm">
+                    <p class="mb-3">“The interface is clear and fast. I love the dashboard for keeping an eye on my progress.”</p>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-circle fa-2x text-secondary"></i>
+                        <div class="ms-3">
+                            <strong>Arun, Engineering</strong><br>
+                            <small class="text-muted">Year 3</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 cta-band">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-3">Ready to Start Your Academic Journey?</h2>
+        <p class="lead mb-4">Join thousands of students who trust our registration system</p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'modules' %}" class="btn btn-light btn-lg">
+                <i class="fas fa-rocket me-2"></i>Explore Modules
+            </a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-light btn-lg me-3">
+                <i class="fas fa-user-plus me-2"></i>Create Account
+            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %} 

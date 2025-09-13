@@ -1,0 +1,454 @@
+{% extends "registration/base.html" %}
+{% load static %}
+
+{% block title %}Audit Logs - Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .audit-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .filter-section {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .log-entry {
+        border-left: 4px solid #dee2e6;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: #f8f9fa;
+        border-radius: 0 8px 8px 0;
+    }
+    
+    .log-entry.create { border-left-color: #28a745; }
+    .log-entry.update { border-left-color: #ffc107; }
+    .log-entry.delete { border-left-color: #dc3545; }
+    .log-entry.view { border-left-color: #17a2b8; }
+    
+    .action-badge {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-weight: bold;
+    }
+    
+    .action-create { background-color: #d4edda; color: #155724; }
+    .action-update { background-color: #fff3cd; color: #856404; }
+    .action-delete { background-color: #f8d7da; color: #721c24; }
+    .action-view { background-color: #d1ecf1; color: #0c5460; }
+    
+    .timestamp {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+    
+    .pagination-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    
+    .stats-summary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .stats-number {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="fas fa-history"></i> Audit Logs
+            </h1>
+            
+            <!-- Navigation Pills -->
+            <ul class="nav nav-pills mb-4">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_dashboard' %}">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_bulk_operations' %}">
+                        <i class="fas fa-tasks"></i> Bulk Operations
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_csv_import' %}">
+                        <i class="fas fa-file-csv"></i> CSV Import
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_reports' %}">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'admin_audit_logs' %}">
+                        <i class="fas fa-history"></i> Audit Logs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admin_api_dashboard' %}">
+                        <i class="fas fa-code"></i> API Dashboard
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Statistics Summary -->
+    <div class="stats-summary">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stats-number">{{ page_obj.paginator.count }}</div>
+                <div>Total Log Entries</div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-number">{{ actions|length }}</div>
+                <div>Action Types</div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-number">{{ models|length }}</div>
+                <div>Models Tracked</div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-number">24h</div>
+                <div>Retention Period</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-section">
+        <h5><i class="fas fa-filter"></i> Filter Logs</h5>
+        <form method="get" class="row">
+            <div class="col-md-3">
+                <label for="action">Action Type:</label>
+                <select class="form-control" id="action" name="action">
+                    <option value="">All Actions</option>
+                    {% for action_code, action_name in actions %}
+                    <option value="{{ action_code }}" {% if action_filter == action_code %}selected{% endif %}>
+                        {{ action_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="model">Model:</label>
+                <select class="form-control" id="model" name="model">
+                    <option value="">All Models</option>
+                    {% for model_name in models %}
+                    <option value="{{ model_name }}" {% if model_filter == model_name %}selected{% endif %}>
+                        {{ model_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="user">Admin User:</label>
+                <input type="text" class="form-control" id="user" name="user" 
+                       placeholder="Search by username" value="{{ user_filter|default:'' }}">
+            </div>
+            <div class="col-md-3">
+                <label>&nbsp;</label>
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Filter
+                    </button>
+                    <a href="{% url 'admin_audit_logs' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times"></i> Clear
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Audit Logs -->
+    <div class="audit-card">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3><i class="fas fa-list"></i> System Activity Log</h3>
+            <div>
+                <button class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-download"></i> Export Logs
+                </button>
+                <button class="btn btn-outline-warning btn-sm">
+                    <i class="fas fa-trash"></i> Clear Old Logs
+                </button>
+            </div>
+        </div>
+
+        {% if page_obj %}
+            {% for log in page_obj %}
+            <div class="log-entry {{ log.action|lower }}">
+                <div class="row">
+                    <div class="col-md-2">
+                        <span class="action-badge action-{{ log.action|lower }}">
+                            {{ log.get_action_display }}
+                        </span>
+                        <br>
+                        <small class="timestamp">{{ log.timestamp|date:"M d, Y H:i" }}</small>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Model:</strong><br>
+                        <code>{{ log.model_name }}</code>
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Object ID:</strong><br>
+                        <code>{{ log.object_id }}</code>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Description:</strong><br>
+                        {{ log.object_repr|truncatechars:50 }}
+                    </div>
+                    <div class="col-md-2">
+                        <strong>Admin User:</strong><br>
+                        {% if log.admin_user %}
+                            <span class="badge badge-info">{{ log.admin_user.username }}</span>
+                        {% else %}
+                            <span class="text-muted">System</span>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-1">
+                        {% if log.ip_address %}
+                            <small class="text-muted" title="IP Address">
+                                <i class="fas fa-network-wired"></i>
+                            </small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Pagination -->
+            <div class="pagination-wrapper">
+                {% if page_obj.has_other_pages %}
+                <nav aria-label="Audit logs pagination">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1{% if action_filter %}&action={{ action_filter }}{% endif %}{% if model_filter %}&model={{ model_filter }}{% endif %}{% if user_filter %}&user={{ user_filter }}{% endif %}">
+                                    <i class="fas fa-angle-double-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if action_filter %}&action={{ action_filter }}{% endif %}{% if model_filter %}&model={{ model_filter }}{% endif %}{% if user_filter %}&user={{ user_filter }}{% endif %}">
+                                    <i class="fas fa-angle-left"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}{% if action_filter %}&action={{ action_filter }}{% endif %}{% if model_filter %}&model={{ model_filter }}{% endif %}{% if user_filter %}&user={{ user_filter }}{% endif %}">
+                                        {{ num }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if action_filter %}&action={{ action_filter }}{% endif %}{% if model_filter %}&model={{ model_filter }}{% endif %}{% if user_filter %}&user={{ user_filter }}{% endif %}">
+                                    <i class="fas fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if action_filter %}&action={{ action_filter }}{% endif %}{% if model_filter %}&model={{ model_filter }}{% endif %}{% if user_filter %}&user={{ user_filter }}{% endif %}">
+                                    <i class="fas fa-angle-double-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+                
+                <div class="text-muted">
+                    Showing {{ page_obj.start_index }} to {{ page_obj.end_index }} of {{ page_obj.paginator.count }} entries
+                </div>
+            </div>
+        {% else %}
+            <div class="text-center text-muted py-5">
+                <i class="fas fa-inbox fa-3x mb-3"></i>
+                <h5>No audit logs found</h5>
+                <p>No activity has been logged yet, or the filters are too restrictive.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Audit Configuration -->
+    <div class="audit-card">
+        <h3><i class="fas fa-cog"></i> Audit Configuration</h3>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Tracking Settings</h5>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="track_creates" checked>
+                    <label class="form-check-label" for="track_creates">Track CREATE operations</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="track_updates" checked>
+                    <label class="form-check-label" for="track_updates">Track UPDATE operations</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="track_deletes" checked>
+                    <label class="form-check-label" for="track_deletes">Track DELETE operations</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="track_views">
+                    <label class="form-check-label" for="track_views">Track VIEW operations</label>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h5>Retention Policy</h5>
+                <div class="form-group">
+                    <label>Log Retention Period:</label>
+                    <select class="form-control">
+                        <option>7 days</option>
+                        <option>30 days</option>
+                        <option>90 days</option>
+                        <option>1 year</option>
+                        <option>Forever</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Auto-cleanup:</label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="auto_cleanup" checked>
+                        <label class="form-check-label" for="auto_cleanup">Automatically remove old logs</label>
+                    </div>
+                </div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real-time Monitoring -->
+    <div class="audit-card">
+        <h3><i class="fas fa-eye"></i> Real-time Monitoring</h3>
+        <p class="text-muted">Monitor system activity in real-time</p>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Live Activity Feed</h6>
+                        <div id="live-feed" style="height: 200px; overflow-y: auto; background: #f8f9fa; padding: 10px; border-radius: 5px;">
+                            <div class="text-muted text-center">
+                                <i class="fas fa-spinner fa-spin"></i> Connecting to live feed...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Activity Summary</h6>
+                        <div class="row text-center">
+                            <div class="col-6">
+                                <div class="text-primary">
+                                    <i class="fas fa-plus-circle fa-2x"></i>
+                                    <div>Today's Creates</div>
+                                    <strong id="today-creates">0</strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-warning">
+                                    <i class="fas fa-edit fa-2x"></i>
+                                    <div>Today's Updates</div>
+                                    <strong id="today-updates">0</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Real-time monitoring simulation
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Audit logs page loaded');
+        
+        // Simulate live feed updates
+        setTimeout(() => {
+            document.getElementById('live-feed').innerHTML = `
+                <div class="mb-2">
+                    <small class="text-muted">2 minutes ago</small><br>
+                    <span class="badge badge-success">CREATE</span> New student registered
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">5 minutes ago</small><br>
+                    <span class="badge badge-warning">UPDATE</span> Module availability changed
+                </div>
+                <div class="mb-2">
+                    <small class="text-muted">8 minutes ago</small><br>
+                    <span class="badge badge-info">VIEW</span> Admin accessed dashboard
+                </div>
+            `;
+            
+            document.getElementById('today-creates').textContent = '12';
+            document.getElementById('today-updates').textContent = '8';
+        }, 2000);
+    });
+    
+    // Export functionality
+    function exportLogs() {
+        console.log('Exporting audit logs');
+        // Implementation for exporting logs
+    }
+    
+    // Clear old logs functionality
+    function clearOldLogs() {
+        if (confirm('Are you sure you want to clear old audit logs? This action cannot be undone.')) {
+            console.log('Clearing old logs');
+            // Implementation for clearing old logs
+        }
+    }
+    
+    // Filter form auto-submit
+    document.getElementById('action').addEventListener('change', function() {
+        this.form.submit();
+    });
+    
+    document.getElementById('model').addEventListener('change', function() {
+        this.form.submit();
+    });
+</script>
+{% endblock %}

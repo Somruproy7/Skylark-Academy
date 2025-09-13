@@ -1,0 +1,35 @@
+{
+    "include": [
+        "src/registration"
+    ],
+    "exclude": [
+        "**/node_modules",
+        "**/__pycache__",
+        "**/venv",
+        "**/.venv",
+        "**/migrations"
+    ],
+    "pythonVersion": "3.8",
+    "pythonPlatform": "Windows",
+    "typeCheckingMode": "basic",
+    "useLibraryCodeForTypes": true,
+    "reportMissingImports": "warning",
+    "reportMissingTypeStubs": "none",
+    "reportOptionalMemberAccess": "none",
+    "reportOptionalSubscript": "none",
+    "reportOptionalCall": "none",
+    "reportOptionalIterable": "none",
+    "reportOptionalOperand": "none",
+    "reportOptionalContextManager": "none",
+    "reportUntypedFunctionDecorator": "none",
+    "reportUntypedClassDecorator": "none",
+    "reportUntypedBaseClass": "none",
+    "reportUntypedNamedTuple": "none",
+    "reportPrivateUsage": "none",
+    "reportUnusedImport": "warning",
+    "reportUnusedVariable": "warning",
+    "pythonPath": "./venv/Scripts/python.exe",
+    "extraPaths": [
+        "./venv/Lib/site-packages"
+    ]
+}
